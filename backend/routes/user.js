@@ -6,7 +6,7 @@ const userCtrl = require("../controllers/user");
 const password = require("../middleware/password"); // on vérifie la validité du mdp
 
 router.post("/signup", password, userCtrl.signup);
-router.post("/signin", userCtrl.signin);
-router.post("/signout", userCtrl.signout);
+router.post("/login", userCtrl.login);
+router.post("/logout", userCtrl.logout);
 
 module.exports = router;

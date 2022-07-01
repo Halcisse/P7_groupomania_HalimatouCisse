@@ -26,7 +26,7 @@ exports.signup = (req, res, next) => {
 
 // pour la connexion
 
-exports.signin = (req, res) => {
+exports.login = (req, res) => {
   User.findOne({
     email: req.body.email,
   }).exec((err, user) => {
@@ -59,7 +59,7 @@ exports.signin = (req, res) => {
 };
 
 //pour la deconnexion (efface la session)
-exports.signout = async (req, res) => {
+exports.logout = async (req, res) => {
   try {
     req.session = null;
     return res.status(200).send({ message: "Vous êtes déconnecté!" });

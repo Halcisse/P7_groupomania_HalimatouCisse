@@ -4,25 +4,55 @@
       <h1>Inscription</h1>
       <p>Vous avez déjà un compte? Connectez vous!</p>
     </div>
-    <div id="formulaire">
-      <div id="champ_lastName">
+    <form method="get" id="formulaire">
+      <div id="champ_formulaire">
         <label for="lastName">Veuillez entrer votre nom de famille</label>
-        <input type="text" id="lastName" placeholder="Nom de famille" />
+        <input
+          type="text"
+          name="lastName"
+          id="lastName"
+          placeholder="Nom de famille"
+          required
+        />
+        <p id="lastNameErrorMsg"></p>
       </div>
-      <div id="champ_firstName">
+      <div id="champ_formulaire">
         <label for="firstName">Veuillez entrer votre prénom</label>
-        <input type="text" id="firstName" placeholder="Prénom" />
+        <input
+          type="text"
+          name="firstName"
+          id="firstName"
+          placeholder="Prénom"
+          required
+        />
+        <p id="firstNameErrorMsg"></p>
       </div>
-      <div id="champ_email">
+      <div class="champ_formulaire">
         <label for="email">Veuillez entrer votre adresse e-mail</label>
-        <input type="email" id="email" placeholder="E-mail" />
+        <input
+          type="email"
+          name="email"
+          id="email"
+          placeholder="E-mail"
+          required
+        />
+        <p id="emailErrorMsg"></p>
       </div>
-      <div id="champ_password">
+      <div class="champ_formulaire">
         <label for="password">Veuillez entrer votre mot de passe</label>
-        <input type="password" id="password" placeholder="Mot de passe" />
+        <input
+          type="password"
+          name="password"
+          id="password"
+          placeholder="Mot de passe"
+          required
+        />
+        <p id="passwordErrorMsg"></p>
       </div>
+    </form>
+    <div class="btn_inscription">
+      <input type="submit" value="Inscription" id="users" />
     </div>
-    <button id=" btn_inscription">Inscription</button>
   </div>
 </template>
 
