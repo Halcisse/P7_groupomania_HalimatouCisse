@@ -4,8 +4,8 @@
       <h1>Inscription</h1>
       <p>Vous avez déjà un compte? Connectez vous!</p>
     </div>
-    <form method="get" id="formulaire">
-      <div id="champ_formulaire">
+    <form method="post" id="formulaire">
+      <div class="champ_formulaire">
         <label for="lastName">Veuillez entrer votre nom de famille</label>
         <input
           type="text"
@@ -16,7 +16,7 @@
         />
         <p id="lastNameErrorMsg"></p>
       </div>
-      <div id="champ_formulaire">
+      <div class="champ_formulaire">
         <label for="firstName">Veuillez entrer votre prénom</label>
         <input
           type="text"
@@ -50,12 +50,41 @@
         <p id="passwordErrorMsg"></p>
       </div>
     </form>
-    <div class="btn_inscription">
-      <input type="submit" value="Inscription" id="users" />
-    </div>
+    <button type="submit" id=" btn_connexion">Connexion</button>
   </div>
 </template>
 
-<script setup></script>
+<script scoped></script>
 
-<style></style>
+<style>
+#inscription_card {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 80%;
+  margin-top: 45px;
+  padding: 30px 10px;
+  border: 2px solid #fd2d01;
+  border-radius: 21px;
+  /* background-color: chartreuse; */
+}
+
+#title {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 15px;
+}
+.champ_formulaire {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-bottom: 8px;
+}
+
+button {
+  margin: 12px;
+}
+</style>

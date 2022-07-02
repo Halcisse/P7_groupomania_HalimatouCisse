@@ -22,12 +22,27 @@ import HelloWorld from "@/components/HelloWorld.vue";
 <style>
 @import "@/assets/base.css";
 
-#app {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
+body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 
+  margin: 0 auto;
+
+  /* background-color: maroon; */
+}
+#app {
   font-weight: normal;
+  margin: 0 auto;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 80%;
+  height: auto;
+  /* background-color: aqua; */
 }
 
 header {
@@ -43,7 +58,7 @@ header {
 a,
 .green {
   text-decoration: none;
-  color: hsla(160, 100%, 37%, 1);
+  color: #fd2d01;
   transition: 0.4s;
 }
 
