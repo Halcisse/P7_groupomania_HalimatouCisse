@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from "vue-router";
 
 const router = createRouter({
-  history: createWebHistory(`http://localhost:8080/api/auth/`),
+  history: createWebHistory("http://localhost:8080/api/auth/"),
   routes: [
     {
       path: "/about",

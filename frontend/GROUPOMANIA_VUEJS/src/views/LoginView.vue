@@ -12,6 +12,7 @@
           name="email"
           id="email"
           placeholder="E-mail"
+          v-model="user.email"
           required
         />
         <p id="emailErrorMsg"></p>
@@ -23,66 +24,42 @@
           name="password"
           id="password"
           placeholder="Mot de passe"
+          v-model="user.password"
           required
         />
         <p id="passwordErrorMsg"></p>
       </div>
+      <button type="submit" id=" btn_connexion">Connexion</button>
     </form>
-    <button type="submit" id=" btn_connexion">Connexion</button>
   </div>
 </template>
 
 <script>
-// import Compteur from "..components/Compteur.vue";
-
 export default {
-  name: "Login",
+  name: "login",
+  data() {
+    return {
+      user: {
+        email: "",
+        password: "",
+      },
+    };
+  },
   methods: {
     login() {
-      console.log("stop form");
+      fetch("http://localhost:8080/api/auth/login", {
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        method: "POST",
+        body: JSON.stringify(this.user),
+      })
+        .then((res) => res.json())
+        .then((data) => console.log(data))
+        .catch((err) => console.log(err));
     },
   },
-  // components: {
-  //   Compteur,
-  // // },
-  // data: () => {
-  //   return {
-  //     email: "",
-  //     password: "",
-  //   };
-  // },
-  // mounted() {
-  //   fetch(`http://localhost:8080/api/auth/login`, {
-  //     method: "POST",
-  //     headers: {
-  //       Authorization: "bearer",
-  //       Accept: "application/json",
-  //       "Content-Type": "application/json",
-  //     },
-  //     body: JSON.stringify({
-  //       email,
-  //       password,
-  //     }),
-  //   })
-  //     .then((res) => {
-  //       if (res.ok) {
-  //         return res.json();
-  //       } else {
-  //         alert("Cet utilisateur n'existe pas !");
-  //       }
-  //     })
-  //     .then((data) => {
-  //       console.log(data);
-  //       // localStorage.setItem("userId", data.userId);
-  //       // localStorage.setItem("token", data.token);
-  //       localStorage.setItem("firstName", data.firstname);
-  //       localStorage.setItem("lastName", data.lastname);
-  //       // window.location.assign("/forum");
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //     });
-  // },
 };
 </script>
 
