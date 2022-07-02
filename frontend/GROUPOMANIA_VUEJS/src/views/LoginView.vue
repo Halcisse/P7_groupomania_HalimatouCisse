@@ -56,7 +56,10 @@ export default {
         body: JSON.stringify(this.user),
       })
         .then((res) => res.json())
-        .then((data) => console.log(data))
+        .then(
+          (data) => console.log(data)
+          // localStorage.setItem("token", data.email)
+        )
         .catch((err) => console.log(err));
     },
   },
