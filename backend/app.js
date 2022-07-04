@@ -11,7 +11,6 @@ const limiter = rateLimit({
   max: 100,
   message: "Il y a eu trop de requêtes depuis cette adresse IP!",
 });
-
 // parse requests of content-type - application/json
 app.use(express.json());
 
@@ -21,7 +20,7 @@ const userRoute = require("./routes/user");
 //Connexion à la base de donnée avec Mongoose
 mongoose
   .connect(
-    "mongodb+srv://HaliGroupomania:20rcgX7UFsF40qql@halimatoucisse.tgmrw.mongodb.net/?retryWrites=true&w=majority",
+    "mongodb+srv://groupomania_bd:jx2n2WKngIOmVo6k@cluster0.a34roiw.mongodb.net/?retryWrites=true&w=majority",
     { useNewUrlParser: true, useUnifiedTopology: true }
   )
   .then(() => console.log("Connexion à MongoDB réussie !"))

@@ -1,21 +1,10 @@
+<!-- app.vue est le point d'entrée de l'application -->
+
 <script setup>
 import { RouterLink, RouterView } from "vue-router";
-import HelloWorld from "@/components/HelloWorld.vue";
 </script>
 
 <template>
-  <header>
-    <div class="wrapper">
-      <HelloWorld msg="Groupomania" />
-
-      <nav>
-        <RouterLink to="/about">About</RouterLink>
-        <RouterLink to="/login">Login</RouterLink>
-        <RouterLink to="/signup">Signup</RouterLink>
-      </nav>
-    </div>
-  </header>
-
   <RouterView />
 </template>
 
@@ -23,36 +12,23 @@ import HelloWorld from "@/components/HelloWorld.vue";
 @import "@/assets/base.css";
 
 body {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-
-  margin: 0 auto;
-
+  margin: 10px;
   /* background-color: maroon; */
 }
 #app {
   font-weight: normal;
-  margin: 0 auto;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  width: 80%;
-  height: auto;
+  width: 100%;
+  height: 100%;
+  margin: 0px 10px;
+
   /* background-color: aqua; */
 }
 
 header {
+  display: flex;
+  flex-direction: column;
   line-height: 1.5;
   max-height: 100vh;
-}
-
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
 }
 
 a,
@@ -60,6 +36,12 @@ a,
   text-decoration: none;
   color: #fd2d01;
   transition: 0.4s;
+}
+img {
+  display: block;
+  margin: 0 auto 2rem;
+  width: 270px;
+  height: 270px;
 }
 
 @media (hover: hover) {
@@ -70,7 +52,7 @@ a,
 
 nav {
   width: 100%;
-  font-size: 12px;
+  font-size: 19px;
   text-align: center;
   margin-top: 2rem;
 }
@@ -98,12 +80,12 @@ nav a:first-of-type {
     display: flex;
     place-items: center;
   }
-
+  /* 
   #app {
     display: grid;
     grid-template-columns: 1fr 1fr;
     padding: 0 2rem;
-  }
+  } */
 
   header {
     display: flex;
@@ -111,23 +93,14 @@ nav a:first-of-type {
     padding-right: calc(var(--section-gap) / 2);
   }
 
-  header .wrapper {
+  /* header .wrapper {
     display: flex;
     place-items: flex-start;
     flex-wrap: wrap;
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
+  } */
 
   nav {
-    text-align: left;
-    margin-left: -1rem;
-    font-size: 1rem;
-
-    padding: 1rem 0;
-    margin-top: 1rem;
+    font-size: 23px;
   }
 }
 </style>

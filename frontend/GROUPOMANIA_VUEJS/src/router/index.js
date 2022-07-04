@@ -1,25 +1,36 @@
 import { createRouter, createWebHistory } from "vue-router";
 
 const router = createRouter({
-  history: createWebHistory("http://localhost:8080/api/auth/"),
+  history: createWebHistory(""),
   routes: [
     {
-      path: "/about",
-      name: "about",
-      // route level code-splitting
-      // this generates a separate chunk (About.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () => import("../views/AboutView.vue"),
+      path: "/",
+      name: "public",
+      component: () => import("../views/public/LayoutView.vue"),
+      children: [
+        {
+          path: "/",
+          name: "home",
+          component: () => import("../views/public/HomeView.vue"),
+        },
+        {
+          path: "/login",
+          name: "login",
+          component: () => import("../views/public/LoginView.vue"),
+        },
+        {
+          path: "/signup",
+          name: "signup",
+          component: () => import("../views/public/SignUpView.vue"),
+        },
+      ],
     },
+
+    // redirection vers 404 en cas de mauvais routage
     {
-      path: "/login",
-      name: "login",
-      component: () => import("../views/LoginView.vue"),
-    },
-    {
-      path: "/signup",
-      name: "signup",
-      component: () => import("../views/SignUpView.vue"),
+      path: "/:PathMatch(.*)*",
+      name: "notfound",
+      component: () => import("../views/public/NotFound.vue"),
     },
   ],
 });

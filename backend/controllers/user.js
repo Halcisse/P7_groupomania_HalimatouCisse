@@ -10,7 +10,8 @@ exports.signup = (req, res, next) => {
     .hash(req.body.password, 10)
     .then((hash) => {
       const user = new User({
-        username: req.body.username,
+        firstName: req.body.firstName,
+        lastName: req.body.lastName,
         email: req.body.email,
         password: hash, // le mot de passe haché est enregistré dans la bdd
         isAdmin: false,
@@ -50,7 +51,6 @@ exports.login = (req, res) => {
 
     res.status(200).send({
       id: user._id,
-      username: user.username,
       email: user.email,
       isAdmin: user.isAdmin,
       token: token,
