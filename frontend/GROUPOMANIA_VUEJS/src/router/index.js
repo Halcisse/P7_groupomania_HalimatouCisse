@@ -1,4 +1,7 @@
 import { createRouter, createWebHistory } from "vue-router";
+import { authGuard } from "../_helpers/auth-guard";
+
+// localStorage.setItem("token", "toto");
 
 const router = createRouter({
   history: createWebHistory(""),
@@ -14,16 +17,6 @@ const router = createRouter({
           name: "home",
           component: () => import("../views/public/HomeView.vue"),
         },
-        {
-          path: "/login",
-          name: "login",
-          component: () => import("../views/public/LoginView.vue"),
-        },
-        {
-          path: "/signup",
-          name: "signup",
-          component: () => import("../views/public/SignUpView.vue"),
-        },
       ],
     },
 
@@ -31,6 +24,7 @@ const router = createRouter({
     {
       path: "/admin",
       name: "admin",
+      beforeEnter: authGuard,
       component: () => import("../views/admin/LayoutAdmin.vue"),
       children: [
         {
@@ -39,27 +33,45 @@ const router = createRouter({
           component: () => import("../views/admin/Dashboard.vue"),
         },
         {
-          path: "users/index",
-          component: () => import("../views/admin/users/UserIndex.vue"),
+          path: "user/index",
+          component: () => import("../views/admin/user/UserIndex.vue"),
         },
         {
-          path: "users/edit/:id",
-          component: () => import("../views/admin/users/UserEdit.vue"),
+          path: "user/edit/:id(\\d+)",
+          component: () => import("../views/admin/user/UserEdit.vue"),
+          props: true,
         },
         {
-          path: "users/add",
-          component: () => import("../views/admin/users/UserAdd.vue"),
+          path: "user/add",
+          component: () => import("../views/admin/user/UserAdd.vue"),
         },
         {
           path: "posts/index",
           component: () => import("../views/admin/posts/PostsIndex.vue"),
         },
         {
-          path: "posts/edit/:id",
+          path: "posts/edit/",
           component: () => import("../views/admin/posts/PostsEdit.vue"),
+        },
+        // redirection vers admin_dash en cas de mauvais routage
+        {
+          path: "/:PathMatch(.*)*",
+          component: () => import("../views/admin/Dashboard.vue"),
         },
       ],
     },
+    {
+      path: "/login",
+      name: "login",
+      component: () => import("../views/auth/LoginView.vue"),
+      // beforeEnter: authGuard,
+    },
+    {
+      path: "/signup",
+      name: "signup",
+      component: () => import("../views/auth/SignUpView.vue"),
+    },
+
     // redirection vers 404 en cas de mauvais routage
     {
       path: "/:PathMatch(.*)*",
@@ -69,4 +81,11 @@ const router = createRouter({
   ],
 });
 
+//pour fermer la route admin
+router.beforeEach((to, from, next) => {
+  if (to.matched[0].name == "admin") {
+    authGuard();
+  }
+  next();
+});
 export default router;

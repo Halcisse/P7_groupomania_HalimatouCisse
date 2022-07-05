@@ -6,6 +6,7 @@
         <RouterLink to="/">Home</RouterLink>
         <RouterLink to="/signup">Signup</RouterLink>
         <RouterLink to="/login">Login</RouterLink>
+        <RouterLink to="/admin/dashboard">Admin</RouterLink>
       </nav>
     </div>
     <div class="img">

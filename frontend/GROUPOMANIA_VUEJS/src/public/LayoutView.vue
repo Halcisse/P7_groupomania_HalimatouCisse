@@ -21,11 +21,6 @@ export default {
 
 <style>
 .public {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  padding: 10px;
-  border: 1px solid blue;
+  border: 1px solid red;
 }
 </style>
