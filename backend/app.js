@@ -41,10 +41,6 @@ app.use((req, res, next) => {
   next();
 });
 
-app.get("/", (req, res) => {
-  res.json({ message: "Welcome to bezkoder application!" });
-});
-
 app.use(express.json()); // les requetes entrantes sont parsés en json
 app.use(limiter); // Sécurise l'authentification
 app.use(
