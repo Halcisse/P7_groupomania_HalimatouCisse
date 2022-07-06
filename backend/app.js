@@ -16,6 +16,7 @@ app.use(express.json());
 
 // on definit les routes principales
 const userRoute = require("./routes/user");
+const PostRoute = require("./routes/posts");
 
 //Connexion à la base de donnée avec Mongoose
 mongoose
@@ -53,6 +54,7 @@ app.use(
 ); // Sécurise le serveur Express
 
 app.use("/api/auth", userRoute);
+app.use("/api/auth", PostRoute);
 app.use("/images", express.static(path.join(__dirname, "images")));
 
 module.exports = app;
