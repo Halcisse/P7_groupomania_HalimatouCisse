@@ -8,19 +8,20 @@ let signup = (Credential) => {
 };
 
 let logout = () => {
-  localStorage.removeItem("token");
+  sessionStorage.removeItem("token");
+  window.location.reload()
 };
 
 let getToken = () => {
-  return localStorage.getItem("token");
+  return sessionStorage.getItem("token");
 };
 let saveToken = (token) => {
-  localStorage.setItem("token", token);
+  sessionStorage.setItem("token", token);
 };
-let isLogged = () => {
-  let token = localStorage.getItem("token");
-  return !!token; // !! token transforme la variable en boolean, soit false si pas de token
-};
+// let isLogged = () => {
+//   let token = sessionStorage.getItem("token");
+//   return !!token; // !! token transforme la variable en boolean, soit false si pas de token
+// };
 
 export const accountServices = {
   login,
@@ -28,5 +29,4 @@ export const accountServices = {
   logout,
   getToken,
   saveToken,
-  isLogged,
 };

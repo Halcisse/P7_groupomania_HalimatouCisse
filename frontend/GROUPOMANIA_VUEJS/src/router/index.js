@@ -19,10 +19,9 @@ const router = createRouter({
         },
       ],
     },
-
     // Routage Admin
     {
-      path: "/admin",
+      path: "/",
       name: "admin",
       beforeEnter: authGuard,
       component: () => import("../views/admin/LayoutAdmin.vue"),
@@ -60,11 +59,36 @@ const router = createRouter({
         },
       ],
     },
+
+    {
+      path: "/secure",
+      name: "secure",
+      beforeEnter: authGuard,
+      component: () => import("../views/auth/SecureLayout.vue"),
+      children: [
+        {
+          path: "/forum",
+          component: () => import("../views/auth/Forum.vue"),
+        },
+        {
+          path: "posts/index",
+          component: () => import("../views/admin/posts/PostsIndex.vue"),
+        },
+        {
+          path: "posts/edit/",
+          component: () => import("../views/admin/posts/PostsEdit.vue"),
+        },
+        // redirection vers forum en cas de mauvais routage
+        {
+          path: "/:PathMatch(.*)*",
+          component: () => import("../views/auth/Forum.vue"),
+        },
+      ],
+    },
     {
       path: "/login",
       name: "login",
       component: () => import("../views/auth/LoginView.vue"),
-      // beforeEnter: authGuard,
     },
     {
       path: "/signup",

@@ -50,14 +50,6 @@ export default {
   },
   methods: {
     login() {
-      // accountServices
-      //   .login(this.user)
-      //   .then((res) => {
-      //     accountServices.saveToken(res.data.token);
-      //     this.$router.push("/admin/dashboard"); // donner accès au forum
-      //   })
-      //   .catch((err) => console.log(err));
-
       fetch("http://localhost:3000/api/auth/login", {
         headers: {
           Accept: "application/json",
@@ -70,11 +62,9 @@ export default {
         .then((data) => {
           console.log(data), console.log(data.token);
           if (data.token) {
-            localStorage.setItem("token", data.token);
-            this.$router.push("admin/dashboard"); //forum
+            sessionStorage.setItem("token", data.token);
+            this.$router.push("/secure");
           }
-          // localStorage.setItem("token", data.token);
-          // this.$router.push("admin/dashboard"); //forum
         })
         .catch((err) => console.log(err));
     },

@@ -17,9 +17,20 @@ exports.signup = (req, res, next) => {
         isAdmin: false,
       });
 
+      const token = jwt.sign({ id: user.id }, process.env.JWT_KEY_TOKEN, {
+        expiresIn: 86400, // 24 hours
+      });
+
       user
         .save()
-        .then(() => res.status(201).json({ message: "Utilisateur créé !" }))
+        .then(() =>
+          res.status(201).json({
+            id: user._id,
+            email: user.email,
+            isAdmin: user.isAdmin,
+            token: token,
+          })
+        )
         .catch((error) => res.status(400).json({ error }));
     })
     .catch((error) => res.status(500).json({ error }));

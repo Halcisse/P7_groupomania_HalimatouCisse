@@ -14,7 +14,7 @@ export default {
   methods: {
     logout() {
       accountServices.logout();
-      this.$router.push("/");
+      this.$router.push("/login");
     },
   },
 };
