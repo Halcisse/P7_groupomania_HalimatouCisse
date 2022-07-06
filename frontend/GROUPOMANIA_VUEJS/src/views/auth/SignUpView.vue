@@ -59,7 +59,7 @@
   </div>
 </template>
 
-<!-- cisse hal test@groupomania.com Groupomani@123 -->
+<!-- cisse hal test3@groupomania.com Groupomani@123 -->
 
 <script>
 import { accountServices } from "@/_services";
@@ -82,8 +82,6 @@ export default {
   },
   methods: {
     signup() {
-      console.log(this.user);
-      //les noms des champs
       // let lastName = this.user.lastName;
       // let firstName = this.user.firstName;
       // let email = this.user.email;
@@ -166,7 +164,10 @@ export default {
       accountServices
         .signup(this.user)
         .then((res) => {
-          this.$router.push("/admin/dashboard"); // donner accès au forum
+          //a condition que res data token existe sinon renvoi vers age
+          sessionStorage.setItem("token", res.data.token);
+          console.log(res);
+          this.$router.push("/auth/secure");
           console.log("utilisateur crée");
         })
         .catch((err) => console.log(err));
