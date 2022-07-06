@@ -25,10 +25,12 @@ export default {
 </script>
 
 <style>
-/* .admin {
-  /* display: flex;
+.admin {
+  display: flex;
   flex-direction: column;
-  justify-content: center; */
+  justify-content: center;
+  width: 100%;
+}
 
 .ad_contain {
   display: flex;

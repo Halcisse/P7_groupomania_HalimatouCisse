@@ -26,6 +26,6 @@ export default {
   justify-content: center;
   align-items: center;
   padding: 10px;
-  border: 1px solid blue;
+  /* border: 1px solid blue; */
 }
 </style>

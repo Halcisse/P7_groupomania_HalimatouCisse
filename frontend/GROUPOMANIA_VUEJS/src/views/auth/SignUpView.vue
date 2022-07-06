@@ -55,12 +55,15 @@
       </div>
       <button type="submit" id=" btn_inscription">Inscription</button>
     </form>
+    <router-link to="/">Retour à l'Accueil</router-link>
   </div>
 </template>
 
 <!-- cisse hal test@groupomania.com Groupomani@123 -->
 
 <script>
+import { accountServices } from "@/_services";
+
 export default {
   name: "signup",
   data() {
@@ -71,33 +74,127 @@ export default {
         email: "",
         password: "",
         isAdmin: false,
+        lastNameErrorMsg: false,
+        firstNameErrorMsg: false,
+        emailErrorMsg: false,
       },
     };
   },
   methods: {
     signup() {
-      fetch("http://localhost:8080/api/auth/signup", {
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
-        method: "POST",
-        body: JSON.stringify(this.user),
-      })
-        .then((res) => res.json())
-        .then((data) => {
-          console.log(data), localStorage.setItem("token", data.user);
-          this.$router.push()
+      console.log(this.user);
+      //les noms des champs
+      // let lastName = this.user.lastName;
+      // let firstName = this.user.firstName;
+      // let email = this.user.email;
+      // //les champs d'erreur
+      // let lastName_error = this.user.lastNameErrorMsg;
+      // let firstName_error = this.user.firstNameErrorMsg;
+      // let email_error = this.user.emailErrorMsg;
+      // //les regex
+      // let lastNameRegexp =
+      //   /^(([A-Za-zÉÈÎÏéèêîïàç]+['.]?[ ]?|[a-zéèêîïàç]+['-]?)+)$/;
+      // let firstNameRegexp =
+      //   /^(([A-Za-zÉÈÎÏéèêîïàç]+['.]?[ ]?|[a-zéèêîïàç]+['-]?)+)$/;
+      // let emailRegexp =
+      //   /^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/;
+      // //les fonctions
+      // function checkLastName(e) {
+      //   e.preventDefault();
+      //   if (lastName.validity.valueMissing) {
+      //     lastName_error.textContent = "Veuillez indiquer votre nom";
+      //     lastName_error.style.color = "red";
+      //   }
+      // }
+      // lastName.onkeydown = function () {
+      //   if (lastNameRegexp.test(lastName.value) == true) {
+      //     lastName_error.textContent = "Format valide";
+      //     lastName_error.style.color = "lime";
+      //   } else {
+      //     lastName_error.textContent =
+      //       "Le format est incorrect (pas de chiffre ou caractères spéciaux)";
+      //     lastName_error.style.color = "orange";
+      //   }
+      // };
+      // checkLastName;
+
+      // function checkfirstName(e) {
+      //   e.preventDefault();
+      //   if (firstName.validity.valueMissing) {
+      //     firstName_error.textContent = "Veuillez indiquer votre nom";
+      //     firstName_error.style.color = "red";
+      //   }
+      // }
+      // firstName.onkeydown = function () {
+      //   if (firstNameRegexp.test(firstName.value) == true) {
+      //     firstName_error.textContent = "Format valide";
+      //     firstName_error.style.color = "lime";
+      //   } else {
+      //     firstName_error.textContent =
+      //       "Le format est incorrect (pas de chiffre ou caractères spéciaux)";
+      //     firstName_error.style.color = "orange";
+      //   }
+      // };
+      // checkfirstName();
+
+      // function checkEmail(e) {
+      //   e.preventDefault();
+      //   if (email_error.validity.valueMissing) {
+      //     email_error.textContent = "Veuillez indiquer votre nom";
+      //     email_error.style.color = "red";
+      //   }
+      // }
+      // email.onkeydown = function () {
+      //   if (emailRegexp.test(email.value) == true) {
+      //     email_error.textContent = "Format valide";
+      //     email_error.style.color = "lime";
+      //   } else {
+      //     email_error.textContent =
+      //       "Le format est incorrect (pas de chiffre ou caractères spéciaux)";
+      //     email_error.style.color = "orange";
+      //   }
+      // };
+      // checkEmail();
+
+      // let ficheUser = JSON.parse(sessionStorage.getItem("User"));
+      // console.log(ficheUser);
+      // let userId = [];
+
+      // userId.push(ficheUser.email);
+      // console.log(userId);
+
+      accountServices
+        .signup(this.user)
+        .then((res) => {
+          this.$router.push("/admin/dashboard"); // donner accès au forum
+          console.log("utilisateur crée");
         })
-        .catch(
-          (err) => console.log(err),
-          alert(
-            "Merci de vérifier l'exactitude des renseignements du formulaire"
-          )
-        );
+        .catch((err) => console.log(err));
     },
   },
 };
+
+//     fetch("http://localhost:8080/api/auth/signup", {
+//       headers: {
+//         "Content-Type": "application/json",
+//         Accept: "application/json",
+//       },
+//       method: "POST",
+//       body: this.user,
+//     })
+//       .then((res) => res.json())
+//       .then((data) => {
+//         console.log(data), localStorage.setItem("token", data.this.user);
+//         this.$router.push("admin/dashboard"); //forum
+//       })
+//       .catch(
+//         (err) => console.log(err),
+//         alert(
+//           "Merci de vérifier l'exactitude des renseignements du formulaire"
+//         )
+//       );
+//   },
+// },
 </script>
 
 <style>
@@ -106,7 +203,6 @@ export default {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 80%;
   margin-top: 45px;
   padding: 30px 10px;
   border: 2px solid #fd2d01;

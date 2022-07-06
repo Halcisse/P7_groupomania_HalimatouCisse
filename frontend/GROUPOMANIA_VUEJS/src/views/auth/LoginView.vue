@@ -31,11 +31,12 @@
       </div>
       <button type="submit" id=" btn_connexion">Connexion</button>
     </form>
+    <router-link to="/">Retour à l'Accueil</router-link>
   </div>
 </template>
 
 <script>
-import { accountServices } from "@/_services";
+// import { accountServices } from "@/_services";
 
 export default {
   name: "login",
@@ -49,29 +50,33 @@ export default {
   },
   methods: {
     login() {
-      accountServices
-        .login(this.user)
-        .then((res) => {
-          accountServices.saveToken(res.data.token);
-          this.$router.push("/admin/dashboard"); // donner accès au forum
-        })
-        .catch((err) => console.log(err));
-
-      // fetch("http://localhost:3000/api/auth/login", {
-      //   headers: {
-      //     Accept: "application/json",
-      //     "Content-Type": "application/json",
-      //   },
-      //   method: "POST",
-      //   body: JSON.stringify(this.user),
-      // })
-      //   .then((res) => res.json())
-      //   .then((data) => {
-      //     console.log(data), console.log(data.token);
-      //     localStorage.setItem("token", data.token);
-      //     this.$router.push("admin/dashboard");
+      // accountServices
+      //   .login(this.user)
+      //   .then((res) => {
+      //     accountServices.saveToken(res.data.token);
+      //     this.$router.push("/admin/dashboard"); // donner accès au forum
       //   })
       //   .catch((err) => console.log(err));
+
+      fetch("http://localhost:3000/api/auth/login", {
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        method: "POST",
+        body: JSON.stringify(this.user),
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          console.log(data), console.log(data.token);
+          if (data.token) {
+            localStorage.setItem("token", data.token);
+            this.$router.push("admin/dashboard"); //forum
+          }
+          // localStorage.setItem("token", data.token);
+          // this.$router.push("admin/dashboard"); //forum
+        })
+        .catch((err) => console.log(err));
     },
   },
 };
@@ -83,7 +88,6 @@ export default {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 80%;
   margin-top: 45px;
   padding: 30px 10px;
   border: 2px solid #fd2d01;

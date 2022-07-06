@@ -16,12 +16,13 @@ body {
   /* background-color: maroon; */
 }
 #app {
-  font-weight: normal;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  align-content: center;
   width: 100%;
-  height: 100%;
-  margin: 0px 10px;
-
-  /* background-color: aqua; */
+  /* 
+  background-color: aqua; */
 }
 
 header {

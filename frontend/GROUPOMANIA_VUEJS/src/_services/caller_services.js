@@ -7,7 +7,7 @@ const Axios = axios.create({
 });
 
 Axios.interceptors.request.use((request) => {
-  console.log("reqAfter", request);
+  console.log("reqBEFORE", request);
   let token = accountServices.getToken();
 
   if (token) {

@@ -3,6 +3,9 @@ import Axios from "./caller_services";
 let login = (Credential) => {
   return Axios.post("/auth/login", Credential);
 };
+let signup = (Credential) => {
+  return Axios.post("/auth/signup", Credential);
+};
 
 let logout = () => {
   localStorage.removeItem("token");
@@ -21,6 +24,7 @@ let isLogged = () => {
 
 export const accountServices = {
   login,
+  signup,
   logout,
   getToken,
   saveToken,
