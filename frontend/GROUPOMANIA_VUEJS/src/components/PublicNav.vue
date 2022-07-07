@@ -5,7 +5,7 @@
       <nav>
         <RouterLink to="/">Home</RouterLink>
         <RouterLink to="/signup">Signup</RouterLink>
-        <RouterLink to="/login">Login</RouterLink>
+        <RouterLink to="/login" @click="isLogged">Login</RouterLink>
         <RouterLink to="/admin/dashboard">Admin</RouterLink>
       </nav>
     </div>
@@ -20,6 +20,8 @@
 </template>
 
 <script>
+// import { accountServices } from '../_services';
+
 export default {
   name: "PublicNav",
 };

@@ -63,7 +63,7 @@ export default {
           console.log(data), console.log(data.token);
           if (data.token) {
             sessionStorage.setItem("token", data.token);
-            this.$router.push("/secure");
+            this.$router.push("/forum");
           }
         })
         .catch((err) => console.log(err));

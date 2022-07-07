@@ -167,7 +167,7 @@ export default {
           //a condition que res data token existe sinon renvoi vers age
           sessionStorage.setItem("token", res.data.token);
           console.log(res);
-          this.$router.push("/auth/secure");
+          this.$router.push("/forum");
           console.log("utilisateur crée");
         })
         .catch((err) => console.log(err));

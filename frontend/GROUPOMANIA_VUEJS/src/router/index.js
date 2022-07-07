@@ -10,14 +10,7 @@ const router = createRouter({
     {
       path: "/",
       name: "public",
-      component: () => import("../views/public/LayoutView.vue"),
-      children: [
-        {
-          path: "/",
-          name: "home",
-          component: () => import("../views/public/HomeView.vue"),
-        },
-      ],
+      component: () => import("../views/public/Home.vue"),
     },
     // Routage Admin
     {
@@ -61,15 +54,11 @@ const router = createRouter({
     },
 
     {
-      path: "/secure",
-      name: "secure",
+      path: "/forum",
+      name: "forum",
       beforeEnter: authGuard,
-      component: () => import("../views/auth/SecureLayout.vue"),
+      component: () => import("../views/auth/Forum.vue"),
       children: [
-        {
-          path: "/forum",
-          component: () => import("../views/auth/Forum.vue"),
-        },
         {
           path: "posts/index",
           component: () => import("../views/admin/posts/PostsIndex.vue"),

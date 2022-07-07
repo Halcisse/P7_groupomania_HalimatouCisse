@@ -6,9 +6,10 @@ const userCtrl = require("../controllers/user");
 const auth = require("../middleware/auth");
 const password = require("../middleware/password"); // on vérifie la validité du mdp
 
-router.post("/signup", auth, password, userCtrl.signup);
-router.post("/login", auth, userCtrl.login);
-router.post("/logout", auth, userCtrl.logout);
+router.post("/signup", password, userCtrl.signup);
+// AJOUTE AUTH
+router.post("/login", userCtrl.login);
+router.post("/logout", userCtrl.logout);
 
 // router.get("/", auth, userCtrl.getAllUser);
 // router.get("/:id", auth, userCtrl.getOneUser);

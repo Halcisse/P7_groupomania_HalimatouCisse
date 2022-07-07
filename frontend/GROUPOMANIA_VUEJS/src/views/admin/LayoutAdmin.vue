@@ -9,8 +9,6 @@
         <RouterView />
       </div>
     </div>
-
-    <!-- Routes vers les pages publics -->
   </div>
 </template>
 

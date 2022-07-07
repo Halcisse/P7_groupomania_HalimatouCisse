@@ -9,7 +9,7 @@ let signup = (Credential) => {
 
 let logout = () => {
   sessionStorage.removeItem("token");
-  window.location.reload()
+  window.location.reload();
 };
 
 let getToken = () => {
@@ -18,10 +18,12 @@ let getToken = () => {
 let saveToken = (token) => {
   sessionStorage.setItem("token", token);
 };
-// let isLogged = () => {
-//   let token = sessionStorage.getItem("token");
-//   return !!token; // !! token transforme la variable en boolean, soit false si pas de token
-// };
+let isLogged = () => {
+  let token = sessionStorage.getItem("token");
+  if (token) {
+    return true;
+  }
+};
 
 export const accountServices = {
   login,
@@ -29,4 +31,5 @@ export const accountServices = {
   logout,
   getToken,
   saveToken,
+  isLogged,
 };
