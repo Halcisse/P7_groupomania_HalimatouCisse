@@ -1,17 +1,17 @@
 <template>
   <div class="forum_nav">
-    <!-- forum nav -->
-    <!-- <router-link to="dashboard">Dashboard</router-link> -->
-    <!-- <router-link to="user/index">Accès aux utilisateurs</router-link> -->
-    FORUM NAV
-    <router-link to="posts/index">Mon profil</router-link>
-    <router-link to="/">Retour à l'Accueil</router-link>
+    <div class="menu">
+       <!-- faire lien vers page perso  -->
+      <router-link to="{  }">Mon profil</router-link>
+      <router-link to="/">Retour à l'Accueil</router-link>
+    </div>
+    <div class="feed"></div>
+
+    FEED
   </div>
 </template>
 
 <script>
-import { accountServices } from "../_services";
-
 export default {
   name: "ForumNav",
 };
@@ -20,7 +20,16 @@ export default {
 <style>
 .forum_nav {
   display: flex;
+}
+.menu {
+  display: flex;
   flex-direction: column;
   border-right: solid 1px black;
+  width: 20%;
+}
+
+.feed {
+  margin-left: 10px;
+  background-color: aqua;
 }
 </style>

@@ -24,5 +24,14 @@
 
 export default {
   name: "PublicNav",
+
+  data() {
+    return {};
+  },
+  methods: {
+    isLogged() {
+      this.$router.push("/forum");
+    },
+  },
 };
 </script>

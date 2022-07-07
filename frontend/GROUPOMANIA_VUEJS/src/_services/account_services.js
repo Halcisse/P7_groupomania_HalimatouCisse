@@ -20,9 +20,7 @@ let saveToken = (token) => {
 };
 let isLogged = () => {
   let token = sessionStorage.getItem("token");
-  if (token) {
-    return true;
-  }
+
 };
 
 export const accountServices = {
