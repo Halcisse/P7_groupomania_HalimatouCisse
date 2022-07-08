@@ -32,15 +32,19 @@ export default {
   display: flex;
   flex-direction: column;
   width: 100%;
+  /* background-color: aqua; */
 }
 
 .forum_contain {
   display: flex;
-  flex-direction: column;
+  /* gap: 10px; */
+  /* 
+  background-color: chartreuse; */
 }
-.forum_display {
+/* .forum_display {
   width: 80%;
   padding: 10px;
   margin-left: 10px;
-}
+   background-color: maroon;
+} */
 </style>

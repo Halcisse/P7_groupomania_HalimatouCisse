@@ -16,12 +16,13 @@ export default {
 
 <style>
 .forum_nav {
-  width: 20%;
+  /* width: 20%; */
 }
 .menu {
   display: flex;
   flex-direction: column;
   border-right: solid 1px black;
+  /* width: 50%; */
 
   background-color: #e0e1ed;
 }

@@ -175,27 +175,6 @@ export default {
   },
 };
 
-//     fetch("http://localhost:8080/api/auth/signup", {
-//       headers: {
-//         "Content-Type": "application/json",
-//         Accept: "application/json",
-//       },
-//       method: "POST",
-//       body: this.user,
-//     })
-//       .then((res) => res.json())
-//       .then((data) => {
-//         console.log(data), localStorage.setItem("token", data.this.user);
-//         this.$router.push("admin/dashboard"); //forum
-//       })
-//       .catch(
-//         (err) => console.log(err),
-//         alert(
-//           "Merci de vérifier l'exactitude des renseignements du formulaire"
-//         )
-//       );
-//   },
-// },
 </script>
 
 <style>

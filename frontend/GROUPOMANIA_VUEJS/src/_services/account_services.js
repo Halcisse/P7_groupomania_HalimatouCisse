@@ -15,19 +15,19 @@ let logout = () => {
 let getToken = () => {
   return sessionStorage.getItem("token");
 };
-let saveToken = (token) => {
-  sessionStorage.setItem("token", token);
-};
-let isLogged = () => {
-  let token = sessionStorage.getItem("token");
+// let saveToken = (token) => {
+//   sessionStorage.setItem("token", token);
+// };
+// let isLogged = () => {
+//   let token = sessionStorage.getItem("token");
 
-};
+// };
 
 export const accountServices = {
   login,
   signup,
   logout,
   getToken,
-  saveToken,
-  isLogged,
+  // saveToken,
+  // isLogged,
 };

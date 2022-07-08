@@ -1,47 +1,82 @@
 <template>
   <div class="feed">
-    <!-- <div v-if="mode === 'create'" class="newPost">
-      <label for="text" />
-      <input
-        type="text"
-        name="post"
-        value="post"
-        id="post"
-        placeholder="Avez vous quelque chose à partager?"
-      />
-      <button class="ajout image">add img</button>
-      <button class="update post">update post</button>
-      <button class="delete post">delete post</button>
-    </div> -->
-    <h1>Actualités</h1>
-    <label for="text">
-      <input
-        type="text"
-        name="post"
-        value="post"
-        id="post"
-        placeholder="Avez vous quelque chose à partager?"
-      />
-    </label>
+    <div class="feed_title">
+      <h1>Actualités</h1>
+    </div>
+    <div class="creation_post">
+      <form @submit.prevent="createPost" id="post">
+        <div class="form-group">
+          <label for="name">`${firstname} + ${lastname}`</label>
+          <textarea
+            name="form-control"
+            class="form-control"
+            cols="30"
+            rows="10"
+            placeholder="Quoi de neuf?"
+            v-model="message"
+          ></textarea>
+          <input type="file" id="file-input-poster" accept="images/*" />
+          <div class="submit_btn">
+            <button type="submit">Publier</button>
+          </div>
+        </div>
+      </form>
+    </div>
   </div>
 </template>
 
 <script>
+import { postsServices } from "../../_services/posts_services";
 export default {
   name: "feed",
+  data() {
+    return {
+      post: {
+        userId: "",
+        message: "",
+        imageUrl: "",
+      },
+    };
+  },
+  methods: {
+    createPost() {
+      // fetch("http://localhost:3000/api/auth/forum/posts", {
+      //   headers: {
+      //     Accept: "application/json",
+      //     "Content-Type": "application/json",
+      //   },
+      //   method: "POST",
+      //   body: JSON.stringify(this.post),
+      // })
+      //   .then((res) => res.json())
+      //   .then((data) => console.log(data), this.$router.push("/forum"))
+      //   .catch((err) => console.log("impossible de publier"));
+
+      postsServices
+        .createPost(this.post)
+        .then((res) => {
+          sessionStorage.setItem("post", res.data.post);
+          console.log(res);
+          this.$router.push("/forum");
+          console.log("utilisateur crée");
+        })
+        .catch((err) => console.log(err));
+    },
+  },
 };
 </script>
 
 <style>
 .feed {
-  margin-left: 20%;
+  margin-left: 5px;
+  width: 100%;
   /* background-color: #fd2d01; */
 }
 h1 {
   margin-bottom: 30px;
   color: #fd2d01;
 }
-input {
+.form-control {
   border: none;
   border-radius: 5px;
   box-shadow: 2px 20px 8px 7px #e3e4f1;
