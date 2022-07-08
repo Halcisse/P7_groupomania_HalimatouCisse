@@ -35,3 +35,10 @@ export default {
   },
 };
 </script>
+
+<style>
+#logo {
+  width: 90px;
+  height: 30px;
+}
+</style>

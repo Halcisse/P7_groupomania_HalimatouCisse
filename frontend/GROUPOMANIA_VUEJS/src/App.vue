@@ -42,7 +42,6 @@ img {
   display: block;
   margin: 0 auto 2rem;
   width: 270px;
-  height: 270px;
 }
 
 @media (hover: hover) {

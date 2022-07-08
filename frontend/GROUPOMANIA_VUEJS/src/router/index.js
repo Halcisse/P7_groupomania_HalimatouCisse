@@ -10,14 +10,14 @@ const router = createRouter({
     {
       path: "/",
       name: "public",
-      component: () => import("../views/public/Home.vue"),
+      component: () => import("../views/public/PublicLayout.vue"),
     },
     // Routage Admin
     {
       path: "/",
       name: "admin",
       beforeEnter: authGuard,
-      component: () => import("../views/admin/LayoutAdmin.vue"),
+      component: () => import("../views/admin/AdminLayout.vue"),
       children: [
         {
           path: "dashboard",
@@ -57,7 +57,7 @@ const router = createRouter({
       path: "/forum",
       name: "forum",
       beforeEnter: authGuard,
-      component: () => import("../views/auth/Forum.vue"),
+      component: () => import("../views/auth/ForumLayout.vue"),
       children: [
         {
           path: "posts/index",
@@ -70,7 +70,7 @@ const router = createRouter({
         // redirection vers forum en cas de mauvais routage
         {
           path: "/:PathMatch(.*)*",
-          component: () => import("../views/auth/Forum.vue"),
+          component: () => import("../views/auth/ForumLayout.vue"),
         },
       ],
     },
