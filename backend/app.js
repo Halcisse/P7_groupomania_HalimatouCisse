@@ -29,12 +29,13 @@ mongoose
 
 //permet de gérer les erreurs de connexion sur plusieurs serveurs (CORS)
 app.use((req, res, next) => {
-  res.setHeader("Access-Control-Allow-Origin", "https://localhost");
+  res.setHeader("Access-Control-Allow-Origin", "http://localhost:8080");
   res.setHeader(
     "Access-Control-Allow-Headers",
     "Origin, X-Requested-With, Content, Accept, Content-Type, Authorization"
   );
   res.setHeader(
+    "Access-Control-Allow-Credentials",
     "Access-Control-Allow-Methods",
     "GET, POST, PUT, DELETE, PATCH, OPTIONS"
   );
@@ -50,7 +51,7 @@ app.use(
 ); // Sécurise le serveur Express
 
 app.use("/api/auth", userRoute);
-app.use("/api/auth", PostRoute);
+app.use("/api/posts", PostRoute);
 app.use("/images", express.static(path.join(__dirname, "images")));
 
 module.exports = app;

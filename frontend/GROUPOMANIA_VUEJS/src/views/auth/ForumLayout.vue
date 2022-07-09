@@ -21,9 +21,9 @@ import Feed from "./Feed.vue";
 export default {
   name: "forum",
   components: { ForumHeader, ForumNav, Feed },
-  mounted() {
-    alert("monté sur page forum");
-  },
+  // mounted() {
+  //   alert("monté sur page forum");
+  // },
 };
 </script>
 

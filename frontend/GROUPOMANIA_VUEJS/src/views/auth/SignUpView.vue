@@ -164,7 +164,6 @@ export default {
       accountServices
         .signup(this.user)
         .then((res) => {
-          //a condition que res data token existe sinon renvoi vers age
           sessionStorage.setItem("token", res.data.token);
           console.log(res);
           this.$router.push("/forum");

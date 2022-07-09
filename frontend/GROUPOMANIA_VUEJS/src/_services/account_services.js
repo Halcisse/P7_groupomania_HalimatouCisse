@@ -1,10 +1,10 @@
 import Axios from "./caller_services";
 
-let login = (Credential) => {
-  return Axios.post("/auth/login", Credential);
+let login = (Credentials) => {
+  return Axios.post("/auth/login", Credentials);
 };
-let signup = (Credential) => {
-  return Axios.post("/auth/signup", Credential);
+let signup = (Credentials) => {
+  return Axios.post("/auth/signup", Credentials);
 };
 
 let logout = () => {

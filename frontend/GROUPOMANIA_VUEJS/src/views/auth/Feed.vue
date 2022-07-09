@@ -27,41 +27,47 @@
 
 <script>
 import { postsServices } from "../../_services/posts_services";
+import { accountServices } from "../../_services";
 export default {
   name: "feed",
   data() {
     return {
       post: {
-        userId: "",
+        name: "",
         message: "",
         imageUrl: "",
+        usersLiked: [],
+        usersDisliked: [],
+        likes: 0,
+        dislikes: 0,
       },
     };
   },
   methods: {
     createPost() {
-      // fetch("http://localhost:3000/api/auth/forum/posts", {
-      //   headers: {
-      //     Accept: "application/json",
-      //     "Content-Type": "application/json",
-      //   },
-      //   method: "POST",
-      //   body: JSON.stringify(this.post),
-      // })
-      //   .then((res) => res.json())
-      //   .then((data) => console.log(data), this.$router.push("/forum"))
-      //   .catch((err) => console.log("impossible de publier"));
-
-      postsServices
-        .createPost(this.post)
-        .then((res) => {
-          sessionStorage.setItem("post", res.data.post);
-          console.log(res);
-          this.$router.push("/forum");
-          console.log("utilisateur crée");
-        })
-        .catch((err) => console.log(err));
+      fetch("http://localhost:3000/api/posts/", this.post, {
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        method: "POST",
+        body: JSON.stringify(this.post),
+      })
+        .then((res) => res.json())
+        .then((data) => console.log(data), this.$router.push("/"))
+        .catch((err) => console.log("impossible de publier"));
     },
+
+    // postsServices
+    //   .createPost(this.post)
+    //   .then((res) => {
+    //     sessionStorage.setItem("post", res.data.post);
+    //     console.log(res);
+    //     this.$router.push("/forum");
+    //     console.log("post crée");
+    //     console.log(res);
+    //   })
+    //   .catch((err) => console.log(err));
   },
 };
 </script>
