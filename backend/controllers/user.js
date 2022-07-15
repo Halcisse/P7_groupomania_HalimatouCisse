@@ -36,7 +36,7 @@ exports.signup = (req, res, next) => {
     .catch((error) => res.status(500).json({ error }));
 };
 
-// pour la connexion POST 
+// pour la connexion POST
 
 exports.login = (req, res) => {
   User.findOne({
@@ -77,82 +77,4 @@ exports.logout = async (req, res) => {
   } catch (err) {
     this.next(err);
   }
-};
-
-// SUPPRIMER UN USER
-exports.deleteUser = (req, res, next) => {
-  User.findOne({ email: req.body.email })
-    // Cherche l'objet dans la bdd
-    .then((user) => {
-      if (!user || user == null) {
-        res
-          .status(404)
-          .json({ Message: { error_user: "Utilisateur non trouvé !" } });
-      }
-      if (user.id !== req.auth.userId) {
-        res.status(401).json({
-          Message: {
-            error_auth: "Requete non autorisée par cet utilisateur !",
-          },
-        });
-      } else {
-        User.deleteOne({ email: req.body.email })
-          .then(() =>
-            res.status(200).json({
-              Message: {
-                user_delete:
-                  "Nous vous confirmons la suppression de votre compte!",
-              },
-            })
-          )
-          .catch((error) =>
-            res.status(500).json({
-              Message: {
-                error_serveur:
-                  "Une erreur inconnue s'est produite, veuillez reessayer plus tard ou contactez votre administrateur",
-              },
-            })
-          );
-        // }
-        // );
-      }
-    })
-    .catch((error) =>
-      res.status(500).json({
-        Message: {
-          error_serveur:
-            " Une erreur inconnue s'est produite, veuillez reessayer plus tard ou contactez votre administrateur",
-        },
-      })
-    );
-};
-
-
-// Pour afficher tous les posts = GET
-exports.getAllPosts = (req, res, next) => {
-  Post.find()
-    .then((posts) => {
-      res.status(200).json(posts);
-    })
-    .catch((error) => {
-      res.status(400).json({
-        error: error,
-      });
-    });
-};
-
-// Pour afficher un seul post = GET
-exports.getOnePost = (req, res, next) => {
-  Post.findOne({
-    // affiche le post correspondant à l'id
-    _id: req.params.id,
-  })
-    .then((post) => {
-      res.status(200).json(post);
-    })
-    .catch((error) => {
-      res.status(404).json({
-        error: error,
-      });
-    });
 };

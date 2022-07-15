@@ -24,27 +24,27 @@ const router = createRouter({
           name: "dashboard",
           component: () => import("../views/admin/Dashboard.vue"),
         },
-        {
-          path: "user/index",
-          component: () => import("../views/admin/user/UserIndex.vue"),
-        },
-        {
-          path: "user/edit/:id(\\d+)",
-          component: () => import("../views/admin/user/UserEdit.vue"),
-          props: true,
-        },
-        {
-          path: "user/add",
-          component: () => import("../views/admin/user/UserAdd.vue"),
-        },
-        {
-          path: "posts/index",
-          component: () => import("../views/admin/posts/PostsIndex.vue"),
-        },
-        {
-          path: "posts/edit/",
-          component: () => import("../views/admin/posts/PostsEdit.vue"),
-        },
+        // {
+        //   path: "user/index",
+        //   component: () => import("../views/admin/user/UserIndex.vue"),
+        // },
+        // {
+        //   path: "user/edit/:id(\\d+)",
+        //   component: () => import("../views/admin/user/UserEdit.vue"),
+        //   props: true,
+        // },
+        // {
+        //   path: "user/add",
+        //   component: () => import("../views/admin/user/UserAdd.vue"),
+        // },
+        // {
+        //   path: "posts/index",
+        //   component: () => import("../views/admin/posts/PostsIndex.vue"),
+        // },
+        // {
+        //   path: "posts/edit/",
+        //   component: () => import("../views/admin/posts/PostsEdit.vue"),
+        // },
         // redirection vers admin_dash en cas de mauvais routage
         {
           path: "/:PathMatch(.*)*",
@@ -52,7 +52,7 @@ const router = createRouter({
         },
       ],
     },
-
+    // Routage authentifié
     {
       path: "/forum",
       name: "forum",
@@ -60,12 +60,8 @@ const router = createRouter({
       component: () => import("../views/auth/ForumLayout.vue"),
       children: [
         {
-          path: "posts/index",
-          component: () => import("../views/admin/posts/PostsIndex.vue"),
-        },
-        {
-          path: "posts/edit/",
-          component: () => import("../views/admin/posts/PostsEdit.vue"),
+          path: "feed",
+          component: () => import("../views/auth/Feed.vue"),
         },
         // redirection vers forum en cas de mauvais routage
         {
@@ -96,7 +92,7 @@ const router = createRouter({
 
 //pour fermer la route admin
 router.beforeEach((to, from, next) => {
-  if (to.matched[0].name == "admin") {
+  if (to.matched[0].name == "admin" && to.matched[0].name == "forum") {
     authGuard();
   }
   next();

@@ -1,10 +1,10 @@
 import Axios from "./caller_services";
 
-let getAllPosts = (Credendial) => {
-  return Axios.get("/", Credendial);
+let getAllPosts = (Credendials) => {
+  return Axios.get("/", Credendials);
 };
-let getOnePost = (Credendial) => {
-  return Axios.get("/:id", Credendial);
+let getOnePost = (Credendials) => {
+  return Axios.get("/:id", Credendials);
 };
 let createPost = (post) => {
   return Axios.post("/", post);

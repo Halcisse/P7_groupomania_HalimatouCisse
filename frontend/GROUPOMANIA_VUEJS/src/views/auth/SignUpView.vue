@@ -160,20 +160,19 @@ export default {
 
       // userId.push(ficheUser.email);
       // console.log(userId);
-
-      accountServices
-        .signup(this.user)
-        .then((res) => {
-          sessionStorage.setItem("token", res.data.token);
-          console.log(res);
-          this.$router.push("/forum");
-          console.log("utilisateur crée");
-        })
-        .catch((err) => console.log(err));
+      console.log(this.user);
+      // accountServices
+      //   .signup(this.user)
+      //   .then((res) => {
+      //     sessionStorage.setItem("token", res.data.token);
+      //     console.log(res);
+      //     this.$router.push("/forum");
+      //     console.log("utilisateur crée");
+      //   })
+      //   .catch((err) => console.log(err));
     },
   },
 };
-
 </script>
 
 <style>

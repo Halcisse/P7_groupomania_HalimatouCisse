@@ -6,16 +6,21 @@
     <div class="creation_post">
       <form @submit.prevent="createPost" id="post">
         <div class="form-group">
-          <label for="name">`${firstname} + ${lastname}`</label>
+          <input type="text" id="post_user_id" v-model="post.id" hidden />
           <textarea
             name="form-control"
             class="form-control"
             cols="30"
             rows="10"
             placeholder="Quoi de neuf?"
-            v-model="message"
+            v-model="post.message"
           ></textarea>
-          <input type="file" id="file-input-poster" accept="images/*" />
+          <input
+            type="file"
+            id="file_input"
+            v-on:change="post.imageUrl"
+            accept="images/*"
+          />
           <div class="submit_btn">
             <button type="submit">Publier</button>
           </div>
@@ -33,41 +38,44 @@ export default {
   data() {
     return {
       post: {
-        name: "",
         message: "",
         imageUrl: "",
-        usersLiked: [],
-        usersDisliked: [],
-        likes: 0,
-        dislikes: 0,
+        id: "",
       },
     };
   },
   methods: {
     createPost() {
-      fetch("http://localhost:3000/api/posts/", this.post, {
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-        method: "POST",
-        body: JSON.stringify(this.post),
-      })
-        .then((res) => res.json())
-        .then((data) => console.log(data), this.$router.push("/"))
-        .catch((err) => console.log("impossible de publier"));
-    },
+      console.log(this.post);
+      // fetch("http://localhost:3000/api/posts", {
+      //   // headers: {
+      //   //   "Content-Type": "application/json",
+      //   //   Accept: "application/json",
+      //   // },
+      //   method: "POST",
+      //   body: this.post,
+      // })
+      //   .then((res) => res.json())
+      //   .then(
+      //     (data) => console.log(data),
+      //     sessionStorage.setItem("post", JSON.stringify(this.post)),
+      //     this.$router.push("/")
+      //   )
+      //   .catch((err) => console.log("impossible de publier"));
 
-    // postsServices
-    //   .createPost(this.post)
-    //   .then((res) => {
-    //     sessionStorage.setItem("post", res.data.post);
-    //     console.log(res);
-    //     this.$router.push("/forum");
-    //     console.log("post crée");
-    //     console.log(res);
-    //   })
-    //   .catch((err) => console.log(err));
+      // console.log(this.post);
+      // postsServices.createPost(this.post);
+
+      //   .then((res) => {
+      //     console.log(res);
+      //     sessionStorage.setItem("post", res.data.post);
+
+      //     this.$router.push("/forum");
+      //     console.log("post crée");
+      //     console.log(res);
+      //   })
+      //   .catch((err) => console.log(err));
+    },
   },
 };
 </script>

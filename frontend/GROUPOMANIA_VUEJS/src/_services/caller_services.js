@@ -1,20 +1,28 @@
 // initialisation d'Axios
 import axios from "axios";
 import { accountServices } from "./account_services";
-import { postsServices } from "./posts_services";
 
 const Axios = axios.create({
-  baseURL: "http://localhost:3000/api",
+  baseURL: "http://localhost:3000/api/",
+  headers: {
+    "Content-Type": "application/json",
+    Accept: "application/json",
+    "Access-Control-Allow-Origin": "*",
+    "Access-Control-Allow-Headers": "*",
+    "Access-Control-Allow-Credentials": "true",
+  },
 });
 
-// on intercepte la req afin d'isoler le token
+/**
+ * Interceptor pour injection token
+ */
 Axios.interceptors.request.use((request) => {
-  let token = accountServices.getToken();
-
-  if (token) {
-    request.headers.authorization = "Bearer " + token; //ajout du token au header authorization
+  // Si connecté on ajoute le token dans l'entête
+  if (accountServices.isLogged()) {
+    request.headers.Authorization = "Bearer " + accountServices.getToken();
   }
-  return request; // on relache la requete
+
+  return request;
 });
 
 export default Axios;

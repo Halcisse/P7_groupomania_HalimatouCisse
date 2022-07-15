@@ -33,22 +33,21 @@ exports.getOnePost = (req, res, next) => {
 
 //Pour créer un post = POST
 exports.createPost = (req, res, next) => {
-  const postObject = JSON.parse(req.body.post);
   const post = new Post({
-    ...postObject, // ... = spread : récupère toutes les infos du modèle dans le body de la req
+    ...req.body.post,
     imageUrl: `${req.protocol}://${req.get("host")}/images/${
       req.file.filename
-    }`, // on récupère l'url de l'image, protocol = http ou https, host = localhost
-    usersLiked: [], // on initialise les tableaux vides
+    }`,
+    usersLiked: [],
     usersDisliked: [],
     likes: 0,
     dislikes: 0,
   });
   post
-    .save() // save enregistre l'objet crée dans la bdd
+    .save()
     .then(() => {
       res.status(201).json({
-        message: "Post en ligne!",
+        message: "Post publié avec succès!",
       });
     })
     .catch((error) => {
