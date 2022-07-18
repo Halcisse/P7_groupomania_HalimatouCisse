@@ -62,6 +62,7 @@ const router = createRouter({
         {
           path: "feed",
           component: () => import("../views/auth/Feed.vue"),
+          props: true,
         },
         // redirection vers forum en cas de mauvais routage
         {
@@ -90,7 +91,7 @@ const router = createRouter({
   ],
 });
 
-//pour fermer la route admin
+//pour que l'admin n'est plus accès a ses fct lorsqu'il n'y a plus de token (expiration)
 router.beforeEach((to, from, next) => {
   if (to.matched[0].name == "admin" && to.matched[0].name == "forum") {
     authGuard();

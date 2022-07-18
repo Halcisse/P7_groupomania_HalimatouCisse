@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 const postsSchema = mongoose.Schema({
   message: { type: String, required: true },
-  imageUrl: { type: String, required: true },
+  image: { type: String },
   likes: { type: Number, default: 0 },
   dislikes: { type: Number, default: 0 },
   usersLiked: { type: ["String <userId>"], default: [] },

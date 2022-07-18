@@ -9,6 +9,7 @@ let getOnePost = (Credendials) => {
 let createPost = (post) => {
   return Axios.post("/", post);
 };
+
 // let modifyPost = (Credendial) => {
 //   return Axios.put("auth/posts/:id", Credendial);
 // };

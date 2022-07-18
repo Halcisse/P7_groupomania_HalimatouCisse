@@ -18,7 +18,7 @@
           <input
             type="file"
             id="file_input"
-            v-on:change="post.imageUrl"
+            @change="post.imageUrl"
             accept="images/*"
           />
           <div class="submit_btn">
@@ -27,6 +27,7 @@
         </div>
       </form>
     </div>
+    <div>{{ this.post }}</div>
   </div>
 </template>
 
@@ -35,46 +36,43 @@ import { postsServices } from "../../_services/posts_services";
 import { accountServices } from "../../_services";
 export default {
   name: "feed",
+  props: ["post"],
   data() {
     return {
       post: {
         message: "",
         imageUrl: "",
-        id: "",
       },
     };
   },
   methods: {
     createPost() {
       console.log(this.post);
-      // fetch("http://localhost:3000/api/posts", {
-      //   // headers: {
-      //   //   "Content-Type": "application/json",
-      //   //   Accept: "application/json",
-      //   // },
-      //   method: "POST",
-      //   body: this.post,
-      // })
-      //   .then((res) => res.json())
-      //   .then(
-      //     (data) => console.log(data),
-      //     sessionStorage.setItem("post", JSON.stringify(this.post)),
-      //     this.$router.push("/")
-      //   )
-      //   .catch((err) => console.log("impossible de publier"));
-
-      // console.log(this.post);
-      // postsServices.createPost(this.post);
-
-      //   .then((res) => {
-      //     console.log(res);
-      //     sessionStorage.setItem("post", res.data.post);
-
-      //     this.$router.push("/forum");
-      //     console.log("post crée");
-      //     console.log(res);
-      //   })
-      //   .catch((err) => console.log(err));
+      fetch("http://localhost:3000/api/posts", {
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        method: "POST",
+        body: JSON.stringify(this.post),
+      })
+        .then((res) => res.json())
+        .then(
+          (data) => console.log(data),
+          sessionStorage.setItem("post", JSON.stringify(this.post)),
+          this.$router.push("/")
+        )
+        .catch((err) => console.log("impossible de publier"));
+      //   // console.log(this.post);
+      //   // postsServices.createPost(this.post);
+      //   //   .then((res) => {
+      //   //     console.log(res);
+      //   //     sessionStorage.setItem("post", res.data.post);
+      //   //     this.$router.push("/forum");
+      //   //     console.log("post crée");
+      //   //     console.log(res);
+      //   //   })
+      //   //   .catch((err) => console.log(err));
     },
   },
 };

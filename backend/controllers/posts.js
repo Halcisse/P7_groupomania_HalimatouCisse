@@ -33,16 +33,21 @@ exports.getOnePost = (req, res, next) => {
 
 //Pour créer un post = POST
 exports.createPost = (req, res, next) => {
+  console.log(req.body);
   const post = new Post({
-    ...req.body.post,
-    imageUrl: `${req.protocol}://${req.get("host")}/images/${
-      req.file.filename
-    }`,
+    ...req.body,
+    imageUrl: "",
     usersLiked: [],
     usersDisliked: [],
     likes: 0,
     dislikes: 0,
   });
+  console.log(req.file);
+  if (req.file) {
+    post.imageUrl = `${req.protocol}://${req.get("host")}/images/${
+      req.file.filename
+    }`;
+  }
   post
     .save()
     .then(() => {
