@@ -1,9 +1,11 @@
 // initialisation d'Axios
+
+//les modules
 import axios from "axios";
 import { accountServices } from "./account_services";
 
 const Axios = axios.create({
-  baseURL: "http://localhost:3000/api/",
+  baseURL: "http://localhost:3000/api",
   headers: {
     "Content-Type": "application/json",
     Accept: "application/json",

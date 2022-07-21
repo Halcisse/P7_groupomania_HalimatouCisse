@@ -60,9 +60,22 @@ const router = createRouter({
       component: () => import("../views/auth/ForumLayout.vue"),
       children: [
         {
-          path: "feed",
+          path: "forum",
           component: () => import("../views/auth/Feed.vue"),
-          props: true,
+          children: [
+            {
+              path: "/feed",
+              name: "createPost",
+              component: () =>
+                import("../components/forum/feed/CreatePost.vue"),
+            },
+            {
+              path: "/feed",
+              name: "displayPost",
+              component: () =>
+                import("../components/forum/feed/DisplayPost.vue"),
+            },
+          ],
         },
         // redirection vers forum en cas de mauvais routage
         {

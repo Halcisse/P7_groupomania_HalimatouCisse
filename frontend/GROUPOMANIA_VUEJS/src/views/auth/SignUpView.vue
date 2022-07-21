@@ -2,7 +2,13 @@
   <div id="inscription_card">
     <div id="title">
       <h1>Inscription</h1>
-      <p>Vous avez déjà un compte? Connectez vous!</p>
+      <p v-if="errors.length">
+        <b>Merci de corriger les erreurs suivantes</b>
+      </p>
+
+      <ul>
+        <li v-for="error in errors">{{ error }}</li>
+      </ul>
     </div>
     <form @submit.prevent="signup" id="formulaire">
       <div class="champ_formulaire">
@@ -12,10 +18,13 @@
           name="lastName"
           id="lastName"
           placeholder="Nom de famille"
+          @change="verifLastName"
           v-model="user.lastName"
           required
         />
-        <p id="lastNameErrorMsg"></p>
+        <p v-if="lastNameErrorMsg == true" class="champError">
+          Le nom de famille n'est pas conforme
+        </p>
       </div>
       <div class="champ_formulaire">
         <label for="firstName">Veuillez entrer votre prénom</label>
@@ -24,10 +33,13 @@
           name="firstName"
           id="firstName"
           placeholder="Prénom"
+          @change="verifFirstName"
           v-model="user.firstName"
           required
         />
-        <p id="firstNameErrorMsg"></p>
+        <p v-if="firstNameErrorMsg == true" class="champError">
+          Le prénom n'est pas conforme
+        </p>
       </div>
       <div class="champ_formulaire">
         <label for="email">Veuillez entrer votre adresse e-mail</label>
@@ -36,10 +48,13 @@
           name="email"
           id="email"
           placeholder="E-mail"
+          @change="verifEmail"
           v-model="user.email"
           required
         />
-        <p id="emailErrorMsg"></p>
+        <p v-if="emailErrorMsg == true" class="champError">
+          L'adresse email n'est pas conforme
+        </p>
       </div>
       <div class="champ_formulaire">
         <label for="password">Veuillez entrer votre mot de passe</label>
@@ -51,10 +66,18 @@
           v-model="user.password"
           required
         />
-        <p id="passwordErrorMsg"></p>
+        <!-- <p v-if="passwordErrorMsg" class="champError">
+          Le mot de passe n'est pas conforme
+        </p> -->
       </div>
       <button type="submit" id=" btn_inscription">Inscription</button>
     </form>
+    <br />
+    <p>
+      Vous avez déjà un compte?
+      <router-link to="/login">Connectez vous!</router-link>
+    </p>
+    <br />
     <router-link to="/">Retour à l'Accueil</router-link>
   </div>
 </template>
@@ -62,7 +85,7 @@
 <!-- cisse hal test3@groupomania.com Groupomani@123 -->
 
 <script>
-import { accountServices } from "@/_services";
+import { accountServices } from "../../_services";
 
 export default {
   name: "signup",
@@ -74,102 +97,80 @@ export default {
         email: "",
         password: "",
         isAdmin: false,
-        lastNameErrorMsg: false,
-        firstNameErrorMsg: false,
-        emailErrorMsg: false,
       },
+      errors: [],
     };
   },
+
   methods: {
+    //on verifie le password
     signup() {
-      // let lastName = this.user.lastName;
-      // let firstName = this.user.firstName;
-      // let email = this.user.email;
-      // //les champs d'erreur
-      // let lastName_error = this.user.lastNameErrorMsg;
-      // let firstName_error = this.user.firstNameErrorMsg;
-      // let email_error = this.user.emailErrorMsg;
-      // //les regex
-      // let lastNameRegexp =
-      //   /^(([A-Za-zÉÈÎÏéèêîïàç]+['.]?[ ]?|[a-zéèêîïàç]+['-]?)+)$/;
-      // let firstNameRegexp =
-      //   /^(([A-Za-zÉÈÎÏéèêîïàç]+['.]?[ ]?|[a-zéèêîïàç]+['-]?)+)$/;
-      // let emailRegexp =
-      //   /^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/;
-      // //les fonctions
-      // function checkLastName(e) {
-      //   e.preventDefault();
-      //   if (lastName.validity.valueMissing) {
-      //     lastName_error.textContent = "Veuillez indiquer votre nom";
-      //     lastName_error.style.color = "red";
-      //   }
-      // }
-      // lastName.onkeydown = function () {
-      //   if (lastNameRegexp.test(lastName.value) == true) {
-      //     lastName_error.textContent = "Format valide";
-      //     lastName_error.style.color = "lime";
-      //   } else {
-      //     lastName_error.textContent =
-      //       "Le format est incorrect (pas de chiffre ou caractères spéciaux)";
-      //     lastName_error.style.color = "orange";
-      //   }
-      // };
-      // checkLastName;
+      console.log(this.errors);
+      let password = this.user.password;
+      if (!password.isValid) {
+        this.errors.splice(
+          0,
+          1,
+          "Le mot de passe doit avoir  au moins 6 caractères, une majuscule et une minuscule"
+        );
+      }
+      //on verifie l'email
+      let email = this.user.email;
+      let regexpEmail =
+        /^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/;
+      console.log(regexpEmail.test(email));
+      if (regexpEmail.test(email) == false || email == "") {
+        this.errors.splice(
+          0,
+          1,
+          "L'adresse email n'est pas conforme. Ex: test@exemple.com"
+        );
+      }
+      //on verifie le nom
+      let lastName = this.user.lastName;
+      let regexplastName =
+        /^(([A-Za-zÉÈÎÏéèêîïàç]+['.]?[ ]?|[a-zéèêîïàç]+['-]?)+)$/;
+      console.log(regexplastName.test(lastName));
+      if (regexplastName.test(lastName) == false || lastName == "") {
+        this.errors.splice(0, 1, "Merci d'indiquer un Nom conforme");
+      }
+      //on verifie le prenom
+      let firstName = this.user.firstName;
+      let regexpfirstName =
+        /^(([A-Za-zÉÈÎÏéèêîïàç]+['.]?[ ]?|[a-zéèêîïàç]+['-]?)+)$/;
+      console.log(regexpfirstName.test(firstName));
+      if (regexpfirstName.test(firstName) == false || firstName == "") {
+        this.errors.splice(0, 1, "Merci d'indiquer un Prénom conforme");
+      }
+      //on définis le user a envoyer a la bdd
+      let users = { lastName, firstName, email, password };
+      console.log(users);
 
-      // function checkfirstName(e) {
-      //   e.preventDefault();
-      //   if (firstName.validity.valueMissing) {
-      //     firstName_error.textContent = "Veuillez indiquer votre nom";
-      //     firstName_error.style.color = "red";
-      //   }
-      // }
-      // firstName.onkeydown = function () {
-      //   if (firstNameRegexp.test(firstName.value) == true) {
-      //     firstName_error.textContent = "Format valide";
-      //     firstName_error.style.color = "lime";
-      //   } else {
-      //     firstName_error.textContent =
-      //       "Le format est incorrect (pas de chiffre ou caractères spéciaux)";
-      //     firstName_error.style.color = "orange";
-      //   }
-      // };
-      // checkfirstName();
-
-      // function checkEmail(e) {
-      //   e.preventDefault();
-      //   if (email_error.validity.valueMissing) {
-      //     email_error.textContent = "Veuillez indiquer votre nom";
-      //     email_error.style.color = "red";
-      //   }
-      // }
-      // email.onkeydown = function () {
-      //   if (emailRegexp.test(email.value) == true) {
-      //     email_error.textContent = "Format valide";
-      //     email_error.style.color = "lime";
-      //   } else {
-      //     email_error.textContent =
-      //       "Le format est incorrect (pas de chiffre ou caractères spéciaux)";
-      //     email_error.style.color = "orange";
-      //   }
-      // };
-      // checkEmail();
-
-      // let ficheUser = JSON.parse(sessionStorage.getItem("User"));
-      // console.log(ficheUser);
-      // let userId = [];
-
-      // userId.push(ficheUser.email);
-      // console.log(userId);
-      console.log(this.user);
-      // accountServices
-      //   .signup(this.user)
-      //   .then((res) => {
-      //     sessionStorage.setItem("token", res.data.token);
-      //     console.log(res);
-      //     this.$router.push("/forum");
-      //     console.log("utilisateur crée");
-      //   })
-      //   .catch((err) => console.log(err));
+      if (
+        regexplastName.test(lastName) == true &&
+        regexpfirstName.test(firstName) == true &&
+        regexpEmail.test(email) == true &&
+        password != ""
+      ) {
+        localStorage.setItem("users", users);
+        fetch("http://localhost:3000/api/auth/signup", {
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+          method: "POST",
+          body: JSON.stringify(users),
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            if (data.token && data.token != undefined && data.token != "") {
+              //Si la creation du compte est ok alors les actions si dessous
+              sessionStorage.setItem("token", data.token);
+              this.$router.push("/forum");
+            }
+          })
+          .catch((err) => console.log(err));
+      }
     },
   },
 };
@@ -204,5 +205,11 @@ export default {
 
 button {
   margin: 12px;
+}
+
+.champError {
+  color: red;
+  font-size: smaller;
+  font-style: italic;
 }
 </style>

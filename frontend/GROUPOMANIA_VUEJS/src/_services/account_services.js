@@ -4,6 +4,7 @@ let login = (Credentials) => {
   return Axios.post("/auth/login", Credentials);
 };
 let signup = (Credentials) => {
+  sessionStorage.setItem("users", userCard);
   return Axios.post("/auth/signup", Credentials);
 };
 
@@ -15,9 +16,7 @@ let logout = () => {
 let getToken = () => {
   return sessionStorage.getItem("token");
 };
-// let saveToken = (token) => {
-//   sessionStorage.setItem("token", token);
-// };
+
 let isLogged = () => {
   let token = sessionStorage.getItem("token");
 };
@@ -27,6 +26,6 @@ export const accountServices = {
   signup,
   logout,
   getToken,
-  // saveToken,
+
   isLogged,
 };

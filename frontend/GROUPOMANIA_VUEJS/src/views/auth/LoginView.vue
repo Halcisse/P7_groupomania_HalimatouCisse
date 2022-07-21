@@ -2,7 +2,10 @@
   <div id="connexion_card">
     <div id="title">
       <h1>Connexion</h1>
-      <p>Vous n'avez pas encore de compte? Inscrivez vous!</p>
+      <p>
+        Vous n'avez pas encore de compte?
+        <router-link to="/signup">Inscrivez vous!</router-link>
+      </p>
     </div>
     <form @submit.prevent="login" id="formulaire">
       <div class="champ_formulaire">

@@ -42,7 +42,6 @@ exports.createPost = (req, res, next) => {
     likes: 0,
     dislikes: 0,
   });
-  console.log(req.file);
   if (req.file) {
     post.imageUrl = `${req.protocol}://${req.get("host")}/images/${
       req.file.filename
@@ -52,6 +51,7 @@ exports.createPost = (req, res, next) => {
     .save()
     .then(() => {
       res.status(201).json({
+        userId: req.body._id,
         message: "Post publié avec succès!",
       });
     })
