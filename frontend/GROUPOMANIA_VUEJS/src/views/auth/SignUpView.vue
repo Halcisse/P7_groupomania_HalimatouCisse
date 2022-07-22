@@ -137,7 +137,7 @@ export default {
         regexpEmail.test(email) == true &&
         password != ""
       ) {
-        sessionStorage.setItem("users", users);
+        sessionStorage.setItem("users", JSON.stringify(users));
         fetch("http://localhost:3000/api/auth/signup", {
           headers: {
             Accept: "application/json",

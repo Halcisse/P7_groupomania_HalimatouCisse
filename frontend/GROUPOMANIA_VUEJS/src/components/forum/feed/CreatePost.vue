@@ -7,8 +7,7 @@
           v-model="post.message"
           name="form-control"
           class="form-control"
-          cols="30"
-          rows="10"
+          cols="120"
           placeholder="Quoi de neuf?"
         ></textarea>
         <div class="file_input" name="file_input">
@@ -18,8 +17,8 @@
         <div class="submit_btn" name="submit_btn">
           <button type="submit" name="submit">Publier</button>
         </div>
-        <div v-for="(value, key) in post" class="display_post">
-          {{ key }}: {{ value }}
+        <div v-for="post in posts" class="display_post">
+          <div id="display">{{ post.message }} {{ post.imageUrl }}</div>
         </div>
       </div>
     </form>
@@ -27,6 +26,8 @@
 </template>
 
 <script>
+import { postsServices } from "../../../_services";
+
 export default {
   name: "createPost",
   data() {
@@ -36,6 +37,7 @@ export default {
         imageUrl: null,
         userId: "",
       },
+      posts: [],
     };
   },
   methods: {
@@ -45,47 +47,55 @@ export default {
     },
 
     createPost() {
-      let message = this.post.message;
-      let imageUrl = this.post.imageUrl;
-      let userId = sessionStorage.getItem("id");
-
-      let post = {
-        message,
-        imageUrl,
-        userId,
-      };
-      console.log(post);
-      console.log(userId);
-
       //s'il n'y a pas de message et pas de fichiers
-      if (message == "" && imageUrl == null) {
+      if (this.post.message == "" && this.post.imageUrl == null) {
         alert("La publication est vide!");
       }
-
-      let token = sessionStorage.getItem("token");
       //s'il y a un message mais pas de fichiers OU un fichier mais pas de message OU fichier + message
       if (
         (this.post.message != "" && this.post.imageUrl == null) ||
         (this.post.imageUrl != null && this.post.message == "") ||
         (this.post.imageUrl != null && this.post.message != "")
       ) {
+        //le post
+        let post = {
+          message: this.post.message,
+          imageUrl: this.post.imageUrl,
+          userId: sessionStorage.getItem("id"),
+        };
+        let token = sessionStorage.getItem("token");
+
         fetch("http://localhost:3000/api/posts", {
           headers: {
-            Authorization: "Bearer  " + token,
+            Authorization: "Bearer " + token,
             "Content-Type": "application/json",
             Accept: "application/json",
           },
-
           method: "POST",
           body: JSON.stringify(post),
         })
           .then((res) => res.json())
-          .then(
-            (data) => console.log(data),
-            sessionStorage.setItem("post", JSON.stringify(post)),
-            console.log("okmsg"),
-            this.$router.push("/forum")
-          )
+          .then((data) => {
+            this.$router.push("/forum");
+            //Recuperer la liste de post de la bdd
+            fetch("http://localhost:3000/api/posts", {
+              headers: {
+                Authorization: "Bearer " + token,
+                "Content-Type": "application/json",
+                Accept: "application/json",
+              },
+              method: "GET",
+            })
+              .then((response) => response.json())
+              .then((blob) => {
+                {
+                  blob = this.posts;
+                  this.posts.push(post);
+                  console.log("thispost", this.posts);
+                }
+              })
+              .catch((err) => console.log("impossible "));
+          })
           .catch((err) => console.log("impossible de publier"));
       }
     },
@@ -102,5 +112,9 @@ export default {
   margin-bottom: 22px;
   width: 100%;
   height: 100px;
+}
+
+.display_post {
+  background-color: red;
 }
 </style>
