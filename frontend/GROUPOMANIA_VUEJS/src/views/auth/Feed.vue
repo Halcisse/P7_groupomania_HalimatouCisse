@@ -11,8 +11,8 @@
 </template>
 
 <script>
-import CreatePost from "../../components/forum/feed/CreatePost.vue";
 import DisplayPost from "../../components/forum/feed/DisplayPost.vue";
+import CreatePost from "../../components/forum/feed/CreatePost.vue";
 
 export default {
   name: "feed",

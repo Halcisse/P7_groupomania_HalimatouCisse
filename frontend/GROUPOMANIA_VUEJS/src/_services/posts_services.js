@@ -1,17 +1,15 @@
 import Axios from "./caller_services";
 
-let getAllPosts = () => {
-  return Axios.get("/");
+let getAllPosts = (Credendials) => {
+  return Axios.get("/", Credendials);
 };
 let getOnePost = (Credendials) => {
   return Axios.get("/:id", Credendials);
 };
-let createPost = (post) => {
-  return Axios.post("/", post);
+let createPost = (Credendials) => {
+  return Axios.post("/", Credendials);
 };
-let uploadImg = (file) => {
-  return Axios.post("/", file);
-};
+
 // let modifyPost = (Credendial) => {
 //   return Axios.put("auth/posts/:id", Credendial);
 // };
@@ -22,7 +20,7 @@ export const postsServices = {
   getAllPosts,
   getOnePost,
   createPost,
-  uploadImg,
+
   // modifyPost,
   // deletePost,
 };

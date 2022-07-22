@@ -51,7 +51,7 @@ exports.createPost = (req, res, next) => {
     .save()
     .then(() => {
       res.status(201).json({
-        userId: req.body._id,
+        userId: post._id,
         message: "Post publié avec succès!",
       });
     })

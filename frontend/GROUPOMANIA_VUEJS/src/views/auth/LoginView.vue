@@ -66,6 +66,7 @@ export default {
           console.log(data), console.log(data.token);
           if (data.token) {
             sessionStorage.setItem("token", data.token);
+            sessionStorage.setItem("id", data.id);
             this.$router.push("/forum");
           }
         })

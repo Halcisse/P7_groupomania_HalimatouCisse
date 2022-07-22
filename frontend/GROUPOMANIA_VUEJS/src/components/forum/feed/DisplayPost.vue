@@ -1,5 +1,5 @@
 <template>
-  <form @submit.prevent="displayPost" id="displayPost">displayPost</form>
+  
 </template>
 
 <script>
@@ -7,17 +7,18 @@ import { postsServices } from "../../../_services";
 
 export default {
   name: "displayPost",
-  data(){
+  data() {
     return {
-
-    }
+      post: {
+        message: "",
+        imageUrl: "",
+      },
+    };
   },
   method: {
-    getAllPosts(){
-      postsServices.getAllPosts()
-      
-    }
-    
+    getAllPosts() {
+      postsServices.getAllPosts();
+    },
   },
 };
 </script>

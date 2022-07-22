@@ -18,13 +18,9 @@
           name="lastName"
           id="lastName"
           placeholder="Nom de famille"
-          @change="verifLastName"
           v-model="user.lastName"
           required
         />
-        <p v-if="lastNameErrorMsg == true" class="champError">
-          Le nom de famille n'est pas conforme
-        </p>
       </div>
       <div class="champ_formulaire">
         <label for="firstName">Veuillez entrer votre prénom</label>
@@ -33,13 +29,9 @@
           name="firstName"
           id="firstName"
           placeholder="Prénom"
-          @change="verifFirstName"
           v-model="user.firstName"
           required
         />
-        <p v-if="firstNameErrorMsg == true" class="champError">
-          Le prénom n'est pas conforme
-        </p>
       </div>
       <div class="champ_formulaire">
         <label for="email">Veuillez entrer votre adresse e-mail</label>
@@ -48,13 +40,9 @@
           name="email"
           id="email"
           placeholder="E-mail"
-          @change="verifEmail"
           v-model="user.email"
           required
         />
-        <p v-if="emailErrorMsg == true" class="champError">
-          L'adresse email n'est pas conforme
-        </p>
       </div>
       <div class="champ_formulaire">
         <label for="password">Veuillez entrer votre mot de passe</label>
@@ -66,9 +54,6 @@
           v-model="user.password"
           required
         />
-        <!-- <p v-if="passwordErrorMsg" class="champError">
-          Le mot de passe n'est pas conforme
-        </p> -->
       </div>
       <button type="submit" id=" btn_inscription">Inscription</button>
     </form>
@@ -152,7 +137,7 @@ export default {
         regexpEmail.test(email) == true &&
         password != ""
       ) {
-        localStorage.setItem("users", users);
+        sessionStorage.setItem("users", users);
         fetch("http://localhost:3000/api/auth/signup", {
           headers: {
             Accept: "application/json",

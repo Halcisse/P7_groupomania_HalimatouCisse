@@ -1,8 +1,10 @@
 <template>
   <div class="creation_post">
-    <form @submit.prevent="createPost" id="newPost">
-      <div class="form-group" name="form-control">
+    <form @submit.prevent="createPost" method="post">
+      <div class="form-group">
+        <div class="title"></div>
         <textarea
+          v-model="post.message"
           name="form-control"
           class="form-control"
           cols="30"
@@ -10,11 +12,14 @@
           placeholder="Quoi de neuf?"
         ></textarea>
         <div class="file_input" name="file_input">
-          <label for="imageUrl">Ajouter une image?</label> <br />
-          <input type="file" id="imageUrl" name="imageUrl" />
+          <input type="file" ref="imageUrl" @change="uploadImg" />
+          <img :src="imageUrl" alt="" />
         </div>
         <div class="submit_btn" name="submit_btn">
           <button type="submit" name="submit">Publier</button>
+        </div>
+        <div v-for="(value, key) in post" class="display_post">
+          {{ key }}: {{ value }}
         </div>
       </div>
     </form>
@@ -22,51 +27,67 @@
 </template>
 
 <script>
-import { postsServices } from "../../../_services";
-
 export default {
   name: "createPost",
   data() {
     return {
       post: {
         message: "",
-        imageUrl: "",
+        imageUrl: null,
         userId: "",
       },
     };
   },
-  method: {
-    // onFileChange(event) {
-    //   let file = event.target.files[0];
-    //   this.post.imageUrl = file;
-    // },
-    createPost() {
-      //   postsServices
-      //     .createPost(this.post)
-      //     .then((res) => {
-      //       console.log(res.data);
-      //       console.log(res.user);
-      //       sessionStorage.setItem("post", JSON.stringify(this.post)),
-      //         this.$router.push("/");
-      //     })
-      //     .catch((err) => console.log(err));
+  methods: {
+    uploadImg(event) {
+      console.log(event);
+      this.post.imageUrl = URL.createObjectURL(event.target.files[0]);
+    },
 
-      console.log(this.post);
-      fetch("http://localhost:3000/api/posts", {
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
-        method: "POST",
-        body: JSON.stringify(this.post),
-      })
-        .then((res) => res.json())
-        .then(
-          (data) => console.log(data),
-          sessionStorage.setItem("post", JSON.stringify(this.post)),
-          this.$router.push("/")
-        )
-        .catch((err) => console.log("impossible de publier"));
+    createPost() {
+      let message = this.post.message;
+      let imageUrl = this.post.imageUrl;
+      let userId = sessionStorage.getItem("id");
+
+      let post = {
+        message,
+        imageUrl,
+        userId,
+      };
+      console.log(post);
+      console.log(userId);
+
+      //s'il n'y a pas de message et pas de fichiers
+      if (message == "" && imageUrl == null) {
+        alert("La publication est vide!");
+      }
+
+      let token = sessionStorage.getItem("token");
+      //s'il y a un message mais pas de fichiers OU un fichier mais pas de message OU fichier + message
+      if (
+        (this.post.message != "" && this.post.imageUrl == null) ||
+        (this.post.imageUrl != null && this.post.message == "") ||
+        (this.post.imageUrl != null && this.post.message != "")
+      ) {
+        fetch("http://localhost:3000/api/posts", {
+          headers: {
+            Authorization: "Bearer  " + token,
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
+
+          method: "POST",
+          body: JSON.stringify(post),
+        })
+          .then((res) => res.json())
+          .then(
+            (data) => console.log(data),
+            sessionStorage.setItem("post", JSON.stringify(post)),
+            console.log("okmsg"),
+            this.$router.push("/forum")
+          )
+          .catch((err) => console.log("impossible de publier"));
+      }
     },
   },
 };

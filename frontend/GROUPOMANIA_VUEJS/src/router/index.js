@@ -74,6 +74,7 @@ const router = createRouter({
               name: "displayPost",
               component: () =>
                 import("../components/forum/feed/DisplayPost.vue"),
+              props: true,
             },
           ],
         },
