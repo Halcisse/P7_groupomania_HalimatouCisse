@@ -11,13 +11,8 @@ import Axios from "./caller_services";
 //   return posts;
 // } 403
 
-let getAllPosts = (token) => {
-  return Axios.get("/", token, {
-    headers: {
-      Authorization: "Bearer " + token,
-      "Content-Type": "application/json",
-    },
-  });
+let getAllPosts = () => {
+  return Axios.get("/");
 };
 let getOnePost = (Credendials) => {
   return Axios.get("/:id", Credendials);

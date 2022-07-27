@@ -6,7 +6,17 @@
         <ForumNav />
       </div>
       <div id="forum_display">
-        <Feed />
+        <div class="feed">
+          <div class="feed_title">
+            <h1>Actualités</h1>
+          </div>
+          <div class="feed_nav">
+            <!-- <CreatePost /> -->
+            <Suspense>
+              <DisplayPost />
+            </Suspense>
+          </div>
+        </div>
         <RouterView />
       </div>
     </div>
@@ -16,14 +26,12 @@
 <script>
 import ForumHeader from "../../components/forum/ForumHeader.vue";
 import ForumNav from "../../components/forum/ForumNav.vue";
-import Feed from "./Feed.vue";
+import DisplayPost from "../../components/forum/feed/DisplayPost.vue";
+import { Suspense } from "vue";
 
 export default {
   name: "forum",
-  components: { ForumHeader, ForumNav, Feed },
-  // mounted() {
-  //   alert("monté sur page forum");
-  // },
+  components: { ForumHeader, ForumNav, DisplayPost, Suspense },
 };
 </script>
 

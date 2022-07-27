@@ -11,23 +11,19 @@
           placeholder="Quoi de neuf?"
         ></textarea>
         <div class="file_input" name="file_input">
-          <input type="file" ref="imageUrl" @change="uploadImg" />
+          <input type="file" ref="file" @change="uploadImg" />
           <img :src="imageUrl" alt="" />
         </div>
         <div class="submit_btn" name="submit_btn">
           <button type="submit" name="submit">Publier</button>
         </div>
-        <div v-for="post in posts" class="display_post">
-          <div id="display">{{ post.message }} {{ post.imageUrl }}</div>
-        </div>
       </div>
     </form>
   </div>
+
 </template>
 
 <script>
-import { postsServices } from "../../../_services";
-
 export default {
   name: "createPost",
   data() {
@@ -40,11 +36,14 @@ export default {
       posts: [],
     };
   },
+
   methods: {
     uploadImg(event) {
-      console.log(event);
-      this.post.imageUrl = URL.createObjectURL(event.target.files[0]);
+      // console.log(this.$refs.file.files[0]);
+      this.post.imageUrl = event.target.files[0];
+      console.log(this.post.imageUrl);
     },
+
 
     createPost() {
       //s'il n'y a pas de message et pas de fichiers
@@ -61,7 +60,7 @@ export default {
         let post = {
           message: this.post.message,
           imageUrl: this.post.imageUrl,
-          userId: sessionStorage.getItem("id"),
+          userId: this.post.userId,
         };
         let token = sessionStorage.getItem("token");
 
@@ -76,27 +75,10 @@ export default {
         })
           .then((res) => res.json())
           .then((data) => {
-            this.$router.push("/forum");
-            //Recuperer la liste de post de la bdd
-            fetch("http://localhost:3000/api/posts", {
-              headers: {
-                Authorization: "Bearer " + token,
-                "Content-Type": "application/json",
-                Accept: "application/json",
-              },
-              method: "GET",
-            })
-              .then((response) => response.json())
-              .then((blob) => {
-                {
-                  blob = this.posts;
-                  this.posts.push(post);
-                  console.log("thispost", this.posts);
-                }
-              })
-              .catch((err) => console.log("impossible "));
-          })
-          .catch((err) => console.log("impossible de publier"));
+            // on definit userId
+            this.post.userId = sessionStorage.getItem("id");
+      })
+      .catch((err) => console.log("impossible de publier"))
       }
     },
   },
@@ -106,7 +88,7 @@ export default {
 <style>
 .form-control {
   border: none;
-  border-radius: 5px;
+  border-radius: 20px;
   box-shadow: 2px 20px 8px 7px #e3e4f1;
   padding: 5px;
   margin-bottom: 22px;
@@ -114,7 +96,13 @@ export default {
   height: 100px;
 }
 
-.display_post {
-  background-color: red;
+.submit_btn {
+  position: absolute;
+  right: 5px;
+  top: 297px;
+}
+.creation_post {
+  border: solid 4px #fd2d01;
+  border-radius: 20px;
 }
 </style>

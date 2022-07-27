@@ -12,7 +12,7 @@ import { RouterLink, RouterView } from "vue-router";
 @import "@/assets/base.css";
 
 body {
-  height: 100vh;
+  height: 200vh;
   margin: 10px;
   /* background-color: maroon; */
 }

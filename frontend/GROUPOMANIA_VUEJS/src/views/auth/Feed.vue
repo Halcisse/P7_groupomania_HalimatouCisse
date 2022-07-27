@@ -4,7 +4,7 @@
       <h1>Actualités</h1>
     </div>
     <div class="feed_nav">
-      <CreatePost />
+      <!-- <CreatePost /> -->
       <DisplayPost />
     </div>
   </div>
@@ -12,11 +12,11 @@
 
 <script>
 import DisplayPost from "../../components/forum/feed/DisplayPost.vue";
-import CreatePost from "../../components/forum/feed/CreatePost.vue";
+// import CreatePost from "../../components/forum/feed/CreatePost.vue";
 
 export default {
   name: "feed",
-  components: { CreatePost, DisplayPost },
+   // createpost
 };
 </script>
 

@@ -59,19 +59,18 @@ const router = createRouter({
       beforeEnter: authGuard,
       component: () => import("../views/auth/ForumLayout.vue"),
       children: [
+        //   {
+        //     path: "/",
+        //     name: "createPost",
+        //     component: () =>
+        //       import("../components/forum/feed/CreatePost.vue"),
+        //   },
         {
-          path: "forum",
-          component: () => import("../views/auth/Feed.vue"),
-          children: [
-            {
-              path: "/feed",
-              name: "createPost",
-              component: () =>
-                import("../components/forum/feed/CreatePost.vue"),
-            },
-  
-          ],
+          path: "/",
+          name: "displayPost",
+          component: () => import("../components/forum/feed/CreatePost.vue"),
         },
+
         // redirection vers forum en cas de mauvais routage
         {
           path: "/:PathMatch(.*)*",
@@ -79,6 +78,7 @@ const router = createRouter({
         },
       ],
     },
+
     {
       path: "/login",
       name: "login",

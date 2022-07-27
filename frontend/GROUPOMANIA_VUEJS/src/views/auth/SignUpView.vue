@@ -108,7 +108,8 @@ export default {
         this.errors.splice(
           0,
           1,
-          "L'adresse email n'est pas conforme. Ex: test@exemple.com"
+          "L'adresse email n'est pas conforme. Ex: test@exemple.com",
+          this.$router.push("/login")
         );
       }
       //on verifie le nom
