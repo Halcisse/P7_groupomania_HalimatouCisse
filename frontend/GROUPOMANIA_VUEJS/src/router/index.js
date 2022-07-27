@@ -63,12 +63,12 @@ const router = createRouter({
         //     path: "/",
         //     name: "createPost",
         //     component: () =>
-        //       import("../components/forum/feed/CreatePost.vue"),
+        //       import("../components/forum/CreatePost.vue"),
         //   },
         {
           path: "/",
           name: "displayPost",
-          component: () => import("../components/forum/feed/CreatePost.vue"),
+          component: () => import("../components/forum/CreatePost.vue"),
         },
 
         // redirection vers forum en cas de mauvais routage
