@@ -22,8 +22,8 @@ body {
   justify-content: center;
   align-content: center;
   width: 100%;
-  /* 
-  background-color: aqua; */
+  height: auto;
+  /* background-color: aqua; */
 }
 
 header {
@@ -33,9 +33,9 @@ header {
   max-height: 100vh;
 }
 
-a,
-.green {
+a {
   text-decoration: none;
+  font-style: italic;
   color: #fd2d01;
   transition: 0.4s;
 }

@@ -3,7 +3,7 @@
     <div class="menu">
       <!-- faire lien vers page perso  -->
       <router-link to="{  }">Mon profil</router-link>
-      <router-link to="/">Retour à l'Accueil</router-link>
+      <router-link to="/">Accueil</router-link>
     </div>
   </div>
 </template>
@@ -14,16 +14,25 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .forum_nav {
-  /* width: 20%; */
+  background-color: #f4f4f9;
+  height: 100%;
+  padding: 0 2px;
+  border-right: 0;
+  border-right: solid 1px black;
+}
+a {
+  text-decoration: none;
+  font-style: none;
+  color: #fd2d01;
+  font-weight: bold;
+  font-style: normal;
 }
 .menu {
   display: flex;
   flex-direction: column;
-  border-right: solid 1px black;
-  /* width: 50%; */
 
-  background-color: #e0e1ed;
+  padding: 0 12px;
 }
 </style>

@@ -6,16 +6,14 @@
         <ForumNav />
       </div>
       <div id="forum_display">
-        <div class="feed">
-          <div class="feed_title">
-            <h1>Actualités</h1>
-          </div>
-          <div class="feed_nav">
-            <!-- <CreatePost /> -->
-            <Suspense>
-              <DisplayPost />
-            </Suspense>
-          </div>
+        <div class="forum_display_title">
+          <h1>Actualités</h1>
+        </div>
+        <div class="forum_display_nav">
+          <!-- <CreatePost /> -->
+          <Suspense>
+            <DisplayPost />
+          </Suspense>
         </div>
         <RouterView />
       </div>
@@ -26,7 +24,7 @@
 <script>
 import ForumHeader from "../../components/forum/ForumHeader.vue";
 import ForumNav from "../../components/forum/ForumNav.vue";
-import DisplayPost from "../../components/forum/feed/DisplayPost.vue";
+import DisplayPost from "../../components/forum/DisplayPost.vue";
 import { Suspense } from "vue";
 
 export default {
@@ -36,23 +34,23 @@ export default {
 </script>
 
 <style>
+#forum_display {
+  width: 95%;
+  margin: 10px 10px;
+}
 .forum {
   display: flex;
   flex-direction: column;
   width: 100%;
-  /* background-color: aqua; */
+  /* background-color: yellow; */
 }
 
 .forum_contain {
   display: flex;
-  /* gap: 10px; */
-  /* 
-  background-color: chartreuse; */
+
+  /* background-color: chartreuse; */
 }
-/* .forum_display {
-  width: 80%;
-  padding: 10px;
+.forum_display_title {
   margin-left: 10px;
-   background-color: maroon;
-} */
+}
 </style>
