@@ -10,7 +10,7 @@
           <h1>Actualités</h1>
         </div>
         <div class="forum_display_nav">
-          <!-- <CreatePost /> -->
+          <CreatePost />
           <div v-if="error">{{ error }}</div>
           <Suspense>
             <template #default>

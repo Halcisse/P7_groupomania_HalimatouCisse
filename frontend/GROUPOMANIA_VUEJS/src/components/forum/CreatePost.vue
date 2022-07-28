@@ -10,9 +10,12 @@
           cols="120"
           placeholder="Quoi de neuf?"
         ></textarea>
-        <div class="file_input" name="file_input">
-          <input type="file" ref="file" @change="uploadImg" />
-          <img :src="imageUrl" alt="" />
+        <div class="file_item">
+          <label for="file" class="label_file">
+            <p>Ajouter une image?</p>
+            <input type="file" ref="file" @change="uploadImg" />
+            <img :src="imageUrl" alt=""
+          /></label>
         </div>
         <div class="submit_btn" name="submit_btn">
           <button type="submit" name="submit">Publier</button>
@@ -23,6 +26,8 @@
 </template>
 
 <script>
+import { accountServices } from "../../_services";
+
 export default {
   name: "createPost",
   data() {
@@ -30,7 +35,7 @@ export default {
       post: {
         message: "",
         imageUrl: null,
-        userId: "",
+        userId: sessionStorage.getItem("id"),
       },
       posts: [],
     };
@@ -38,8 +43,9 @@ export default {
 
   methods: {
     uploadImg(event) {
-      // console.log(this.$refs.file.files[0]);
-      this.post.imageUrl = event.target.files[0];
+      console.log(event);
+      this.post.imageUrl = URL.createObjectURL(event.target.files[0]);
+      // this.post.imageUrl = this.event; //event.target.files[0]
       console.log(this.post.imageUrl);
     },
 
@@ -61,7 +67,6 @@ export default {
           userId: this.post.userId,
         };
         let token = sessionStorage.getItem("token");
-
         fetch("http://localhost:3000/api/posts", {
           headers: {
             Authorization: "Bearer " + token,
@@ -73,10 +78,11 @@ export default {
         })
           .then((res) => res.json())
           .then((data) => {
-            // on definit userId
-            this.post.userId = sessionStorage.getItem("id");
+            alert("its ok");
+            this.posts.push(this.post);
+            window.location.reload();
           })
-          .catch((err) => console.log("impossible de publier"));
+          .catch((err) => console.log("err"));
       }
     },
   },
@@ -85,17 +91,28 @@ export default {
 
 <style>
 .form-control {
+  box-shadow: rgba(0, 0, 0, 0.4) 0px 30px 90px;
   border: none;
   border-radius: 20px;
-  box-shadow: 2px 20px 8px 7px #e3e4f1;
   padding: 5px;
   margin-bottom: 22px;
   width: 100%;
   height: 100px;
 }
-
 .creation_post {
-  border: solid 4px #fd2d01;
   border-radius: 20px;
 }
+
+.label_file {
+  cursor: pointer;
+  color: #fd2d01;
+  font-weight: bold;
+}
+.label_file:hover {
+  color: #f87373;
+}
+
+/* .input_file {
+  display: none;
+} */
 </style>

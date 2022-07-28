@@ -4,7 +4,7 @@
     v-else
     v-for="post in posts.slice().reverse()"
     :post="post"
-    class="display"
+    class="post_card"
   />
 </template>
 
@@ -37,7 +37,7 @@ export default {
 };
 </script>
 <style>
-.display {
+.post_card {
   background-color: #f4f4f9;
   margin: 15px 10px;
   border-style: inset;
