@@ -28,7 +28,7 @@ export default {
 .display {
   background-color: #f4f4f9;
   margin: 15px 10px;
-  border: solid 3px;
+  border-style: inset;
   border-radius: 11px;
   height: 100px;
 }
