@@ -1,27 +1,39 @@
 <template>
-  <div v-for="post in posts.slice().reverse()" class="display">
-    {{ post.message }} {{ post.imageUrl }}
-  </div>
+  <div v-if="error">{{ error }}</div>
+  <SinglePost
+    v-else
+    v-for="post in posts.slice().reverse()"
+    :post="post"
+    class="display"
+  />
 </template>
 
 <script>
-import { ref } from "vue";
+import { ref, defineAsyncComponent } from "vue";
+const SinglePost = defineAsyncComponent(() => import("./SinglePost.vue"));
+
 export default {
   name: "displayPost",
   async setup() {
     const posts = ref(null);
-    let token = sessionStorage.getItem("token");
-    const response = await fetch("http://localhost:3000/api/posts", {
-      headers: {
-        Authorization: "Bearer " + token,
-        "Content-Type": "application/json",
-        Accept: "application/json",
-      },
-    });
-    posts.value = await response.json();
+    const error = ref(null);
+    try {
+      let token = sessionStorage.getItem("token");
+      const response = await fetch("http://localhost:3000/api/posts", {
+        headers: {
+          Authorization: "Bearer " + token,
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+      });
+      posts.value = await response.json();
+    } catch (e) {
+      error.value = e;
+    }
 
-    return { posts };
+    return { posts, error };
   },
+  components: { SinglePost },
 };
 </script>
 <style>

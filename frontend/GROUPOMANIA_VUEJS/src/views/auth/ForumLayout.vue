@@ -11,8 +11,14 @@
         </div>
         <div class="forum_display_nav">
           <!-- <CreatePost /> -->
+          <div v-if="error">{{ error }}</div>
           <Suspense>
-            <DisplayPost />
+            <template #default>
+              <DisplayPost />
+            </template>
+            <template #fallback>
+              <div>Publications en cours de chargement...</div>
+            </template>
           </Suspense>
         </div>
         <RouterView />
@@ -25,11 +31,21 @@
 import ForumHeader from "../../components/forum/ForumHeader.vue";
 import ForumNav from "../../components/forum/ForumNav.vue";
 import DisplayPost from "../../components/forum/DisplayPost.vue";
-import { Suspense } from "vue";
+import CreatePost from "../../components/forum/CreatePost.vue";
+import { Suspense, ref, onErrorCaptured } from "vue";
 
 export default {
   name: "forum",
-  components: { ForumHeader, ForumNav, DisplayPost, Suspense },
+  setup() {
+    const error = ref(null);
+
+    onErrorCaptured((e) => {
+      error.value = e;
+    });
+
+    return { error };
+  },
+  components: { ForumHeader, ForumNav, DisplayPost, Suspense, CreatePost },
 };
 </script>
 
