@@ -2,7 +2,6 @@
   <div class="creation_post">
     <form @submit.prevent="createPost" method="post">
       <div class="form-group">
-        <div class="title"></div>
         <textarea
           v-model="post.message"
           name="form-control"
@@ -10,15 +9,24 @@
           cols="120"
           placeholder="Quoi de neuf?"
         ></textarea>
-        <div class="file_item">
-          <label for="file" class="label_file">
-            <p>Ajouter une image?</p>
-            <input type="file" ref="file" @change="uploadImg" />
-            <img :src="imageUrl" alt=""
-          /></label>
-        </div>
-        <div class="submit_btn" name="submit_btn">
-          <button type="submit" name="submit">Publier</button>
+
+        <div class="post_info">
+          <div class="file_item">
+            <label for="file" class="label_file">
+              <p>Ajouter une image?</p>
+              <input
+                type="file"
+                ref="file"
+                @change="uploadImg"
+                accept="image/png, image/jpg, image/gif, image/jpeg" />
+              <img :src="post.imageUrl" alt=""
+            /></label>
+          </div>
+          <div class="submit">
+            <button class="submit_btn" type="submit" name="submit">
+              Publier
+            </button>
+          </div>
         </div>
       </div>
     </form>
@@ -26,8 +34,6 @@
 </template>
 
 <script>
-import { accountServices } from "../../_services";
-
 export default {
   name: "createPost",
   data() {
@@ -44,7 +50,7 @@ export default {
   methods: {
     uploadImg(event) {
       console.log(event);
-      this.post.imageUrl = URL.createObjectURL(event.target.files[0]);
+      this.post.imageUrl = URL.createObjectURL(event.target.files[0]); //
       // this.post.imageUrl = this.event; //event.target.files[0]
       console.log(this.post.imageUrl);
     },
@@ -54,7 +60,7 @@ export default {
       if (this.post.message == "" && this.post.imageUrl == null) {
         alert("La publication est vide!");
       }
-      //s'il y a un message mais pas de fichiers OU un fichier mais pas de message OU fichier + message
+      //s'il y a des fichiers avec ou sans message
       if (
         (this.post.message != "" && this.post.imageUrl == null) ||
         (this.post.imageUrl != null && this.post.message == "") ||
@@ -66,6 +72,7 @@ export default {
           imageUrl: this.post.imageUrl,
           userId: this.post.userId,
         };
+        console.log(post);
         let token = sessionStorage.getItem("token");
         fetch("http://localhost:3000/api/posts", {
           headers: {
@@ -95,7 +102,6 @@ export default {
   border: none;
   border-radius: 20px;
   padding: 5px;
-  margin-bottom: 22px;
   width: 100%;
   height: 100px;
 }
@@ -111,8 +117,52 @@ export default {
 .label_file:hover {
   color: #f87373;
 }
+.submit_btn {
+  align-items: center;
+  appearance: none;
+  background-color: #4e5166;
+  border-radius: 24px;
+  border-style: none;
+  box-shadow: rgba(0, 0, 0, 0.2) 0 3px 5px -1px,
+    rgba(0, 0, 0, 0.14) 0 6px 10px 0, rgba(0, 0, 0, 0.12) 0 1px 18px 0;
+  box-sizing: border-box;
+  color: #fd2d01;
+  cursor: pointer;
+  display: inline-flex;
+  fill: currentcolor;
+  font-family: "Google Sans", Roboto, Arial, sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  height: 38px;
+  justify-content: center;
+  letter-spacing: 0.25px;
+  line-height: normal;
+  max-width: 100%;
+  overflow: visible;
+  padding: 2px 24px;
+  position: relative;
+  text-align: center;
+}
 
-/* .input_file {
-  display: none;
+/* input {
+  width: 0.1px;
+  height: 0.1px;
+  opacity: 0;
+  overflow: hidden;
+  position: absolute;
+  z-index: -1;
+}
+
+input,
+label {
+  font-size: 1.25em;
+  font-weight: 700;
+  color: white;
+  display: inline-block;
 } */
+.post_info {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
 </style>
