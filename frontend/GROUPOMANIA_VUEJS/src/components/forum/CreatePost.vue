@@ -1,4 +1,5 @@
 <template>
+
   <div class="creation_post">
     <form @submit.prevent="createPost" method="post">
       <div class="form-group">
@@ -48,12 +49,13 @@ export default {
   methods: {
     uploadImg(event) {
       this.post.imageUrl = event.target.files[0];
+      // let filename = event.target.files[0].name;
       let fileSelected = this.post.imageUrl;
       let token = sessionStorage.getItem("token");
       fetch("http://localhost:3000/api/posts", {
         headers: {
           Authorization: "Bearer " + token,
-          "Content-Type": "application/json charset=UTF-8",
+          "Content-Type": "application/json",
           Accept: "application/json",
         },
         method: "POST",
@@ -62,14 +64,12 @@ export default {
         .then((res) => res.json())
         .then((data) => {
           alert("upload ok");
-          console.log(data.imageUrl);
-
-          this.post.imageUrl = data.imageUrl;
-          console.log(this.post.imageUrl);
+          console.log(data);
+          fileSelected = data.imageUrl;
+          // filename = this.post.imageUrl.name;
+          console.log(fileSelected);
         })
         .catch((err) => console.log("err"));
-
-      //il faut upload l'image te k'enregister dans le serve qui renvoi l'url de l'image (on pourra ainsi supp le if dans le back)
     },
 
     createPost() {
