@@ -1,5 +1,8 @@
 <template>
-  <div>{{ post.message }} {{ post.imageUrl }}</div>
+  <div>
+    {{ post.message }}
+    <img :src="post.imageUrl" />
+  </div>
 </template>
 
 <script>

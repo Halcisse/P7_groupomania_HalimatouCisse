@@ -33,44 +33,21 @@ exports.getOnePost = (req, res, next) => {
 
 //Pour créer un post = POST
 exports.createPost = (req, res, next) => {
-  console.log(req.body);
-  if (req.file) {
-    const post = new Post({
-      ...req.body,
-      imageUrl: `${req.protocol}://${req.get("host")}/images/${
-        req.body.file.filename
-      }`,
-      usersLiked: [],
-      usersDisliked: [],
-      likes: 0,
-      dislikes: 0,
-    });
-    post
-      .save()
-      .then(() => {
-        res.status(201).json({
-          userId: post._id,
-          message: "Post publié avec succès!",
-        });
-      })
-      .catch((error) => {
-        res.status(400).json({
-          error: error,
-        });
-      });
-  }
   const post = new Post({
     ...req.body,
+    imageUrl: `${req.protocol}://${req.get("host")}/images/${req.file}`,
     usersLiked: [],
     usersDisliked: [],
     likes: 0,
     dislikes: 0,
   });
-
   post
     .save()
     .then(() => {
       res.status(201).json({
+        imageUrl: `${req.protocol}://${req.get("host")}/images/${
+          req.body.file
+        }`,
         userId: post._id,
         message: "Post publié avec succès!",
       });

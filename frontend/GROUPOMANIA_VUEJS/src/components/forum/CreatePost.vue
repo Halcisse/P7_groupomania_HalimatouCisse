@@ -14,13 +14,9 @@
           <div class="file_item">
             <label for="file" class="label_file">
               <p>Ajouter une image?</p>
-              <input
-                type="file"
-                ref="file"
-                @change="uploadImg"
-                accept="image/png, image/jpg, image/gif, image/jpeg" />
-              <img :src="post.imageUrl" alt=""
-            /></label>
+              <input type="file" @change="uploadImg" accept="image/*" />
+              <img :src="post.imageUrl" />
+            </label>
           </div>
           <div class="submit">
             <button class="submit_btn" type="submit" name="submit">
@@ -41,18 +37,39 @@ export default {
       post: {
         message: "",
         imageUrl: null,
-        userId: sessionStorage.getItem("id"),
+
+        // userId: sessionStorage.getItem("id"),
       },
+
       posts: [],
     };
   },
 
   methods: {
     uploadImg(event) {
-      console.log(event);
-      this.post.imageUrl = URL.createObjectURL(event.target.files[0]); //
-      // this.post.imageUrl = this.event; //event.target.files[0]
-      console.log(this.post.imageUrl);
+      this.post.imageUrl = event.target.files[0];
+      let fileSelected = this.post.imageUrl;
+      let token = sessionStorage.getItem("token");
+      fetch("http://localhost:3000/api/posts", {
+        headers: {
+          Authorization: "Bearer " + token,
+          "Content-Type": "application/json charset=UTF-8",
+          Accept: "application/json",
+        },
+        method: "POST",
+        body: JSON.stringify(fileSelected),
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          alert("upload ok");
+          console.log(data.imageUrl);
+
+          this.post.imageUrl = data.imageUrl;
+          console.log(this.post.imageUrl);
+        })
+        .catch((err) => console.log("err"));
+
+      //il faut upload l'image te k'enregister dans le serve qui renvoi l'url de l'image (on pourra ainsi supp le if dans le back)
     },
 
     createPost() {
@@ -60,7 +77,7 @@ export default {
       if (this.post.message == "" && this.post.imageUrl == null) {
         alert("La publication est vide!");
       }
-      //s'il y a des fichiers avec ou sans message
+      //s'il y a des fichiers et/ou message
       if (
         (this.post.message != "" && this.post.imageUrl == null) ||
         (this.post.imageUrl != null && this.post.message == "") ||
@@ -70,7 +87,7 @@ export default {
         let post = {
           message: this.post.message,
           imageUrl: this.post.imageUrl,
-          userId: this.post.userId,
+          // userId: this.post.userId,
         };
         console.log(post);
         let token = sessionStorage.getItem("token");
@@ -90,6 +107,11 @@ export default {
             window.location.reload();
           })
           .catch((err) => console.log("err"));
+        // axios.post("http://localhost:3000/api/posts", formData, {
+        //   headers: {
+        //     "Content-Type": "multipart/form-data",
+        //   },
+        // });
       }
     },
   },
@@ -97,6 +119,16 @@ export default {
 </script>
 
 <style>
+/* .imagePreviewWrapper {
+  background-repeat: no-repeat;
+    width: 250px;
+    height: 250px;
+    display: block;
+    cursor: pointer;
+    margin: 0 auto 30px;
+    background-size: contain;
+    background-position: center center; */
+
 .form-control {
   box-shadow: rgba(0, 0, 0, 0.4) 0px 30px 90px;
   border: none;
@@ -143,7 +175,6 @@ export default {
   position: relative;
   text-align: center;
 }
-
 /* input {
   width: 0.1px;
   height: 0.1px;
@@ -151,9 +182,9 @@ export default {
   overflow: hidden;
   position: absolute;
   z-index: -1;
-}
+} */
 
-input,
+/* input,
 label {
   font-size: 1.25em;
   font-weight: 700;
