@@ -59,16 +59,20 @@ const router = createRouter({
       beforeEnter: authGuard,
       component: () => import("../views/auth/ForumLayout.vue"),
       children: [
-        //   {
-        //     path: "/",
-        //     name: "createPost",
-        //     component: () =>
-        //       import("../components/forum/CreatePost.vue"),
-        //   },
+        // {
+        //   path: "/",
+        //   name: "createPost",
+        //   component: () => import("../components/forum/CreatePost.vue"),
+        // },
         {
           path: "/",
           name: "displayPost",
           component: () => import("../components/forum/CreatePost.vue"),
+        },
+        {
+          path: "posts/edit",
+          name: "EditPost",
+          component: () => import("../components/forum/EditPost.vue"),
         },
 
         // redirection vers forum en cas de mauvais routage

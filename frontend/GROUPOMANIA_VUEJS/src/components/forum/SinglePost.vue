@@ -1,24 +1,28 @@
 <template>
   <div class="post">
     <div class="postMessage">{{ post.message }}</div>
-    <img :src="post.imageUrl" />
+    <div class="postImage">{{ post.imageUrl }}</div>
+
     <div class="postItem">
       <div class="iconLikes">
         <icon icon="thumbs-up" /> <icon icon="thumbs-down" />
       </div>
       <div class="iconeUpdate">
-        <icon icon="trash-can" /> <icon icon="eraser" />
+        <router-link to="posts/edit"><icon icon="trash-can" /></router-link>
+        <router-link to="/edit"><icon icon="eraser" /></router-link>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import EditPost from "./EditPost.vue";
 export default {
   name: "SinglePost",
   props: {
     post: Object,
   },
+  components: { EditPost },
 };
 </script>
 

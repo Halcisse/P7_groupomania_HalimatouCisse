@@ -1,0 +1,64 @@
+<template>
+  edit work
+  <!-- <div>
+    <div class="form__input">
+      <label for="title">Modifier le titre</label>
+      <input type="text" id="title" arial-label="modify_title_post" v-model="post.title" />
+    </div>
+    <div class="form__input">
+      <label for="message">Modifier le message</label>
+      <input type="text" id="message" aria-label="modify_message_post" v-model="post.message" />
+    </div>
+    <div class="form__input">
+      <label for="image"></label>
+
+      <input type="file" name="image" @change="onFileChange" id="image" aria-label="image_post" />
+    </div>
+    <div class="dialogue_btn" v-if="this.post.image !== null || this.image !== null" @click="deleteImage">SUPPRIMER L'IMAGE</div>
+    <div v-if="this.image == 'delete'">Image supprimée !</div>
+    <div class="dialogue_btn" @click="noEtat()">
+      <span>ANNULER</span>
+    </div>
+    <button class="btn-grad" @click="modifyPost()">
+      <span>Publier la modification</span>
+    </button>
+  </div> -->
+</template>
+
+<script>
+export default {
+  name: "EditPost",
+  data: () => {
+    return {
+      userId: JSON.parse(sessionStorage.getItem("userId")),
+      message: "",
+      imageUrl: null,
+    };
+  },
+
+  methods: {
+    onFileChange(e) {
+      let file = e.target.files[0];
+      this.image = file;
+    },
+    deleteImage() {
+      this.image = "delete";
+    },
+    modifyPost() {
+      let postUpdate = new FormData();
+      postUpdate.append("title", this.post.title);
+      postUpdate.append("message", this.post.message);
+      postUpdate.append("UserId", this.userIdSS);
+      postUpdate.append("image", this.image);
+      this.$store.dispatch("postStore/modifyPost", postUpdate, {
+        headers: {
+          "Content-type": "multipart/form-data",
+        },
+      });
+      this.$store.commit("postStore/setEtat", { etat: "", info: "" });
+    },
+  },
+};
+</script>
+
+<style></style>
