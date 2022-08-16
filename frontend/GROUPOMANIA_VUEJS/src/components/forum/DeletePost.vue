@@ -24,7 +24,7 @@ export default {
     };
   },
   mounted() {
-    // alert("mounted");
+    // pour afficher le poste a supprimer;
     let postId = this.$route.params.id;
     let token = sessionStorage.getItem("token");
     console.log(postId);

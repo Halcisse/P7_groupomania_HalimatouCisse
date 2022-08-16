@@ -1,97 +1,129 @@
 <template>
-  <div>
-    <div class="form__input">
-      <label for="title">Modifier le titre</label>
-      <input
-        type="text"
-        id="title"
-        arial-label="modify_title_post"
-        v-model="post.title"
-      />
+  <div class="edit_card">
+    <div class="title">
+      <h1>Modifier la publication</h1>
     </div>
-    <div class="form__input">
-      <label for="message">Modifier le message</label>
-      <input
-        type="text"
-        id="message"
-        aria-label="modify_message_post"
-        v-model="post.message"
-      />
-    </div>
-    <div class="form__input">
-      <label for="image"></label>
+    <p>Ancien post</p>
+    <div class="post">{{ post.message }} {{ post.imageUrl }}</div>
 
-      <input
-        type="file"
-        name="image"
-        @change="onFileChange"
-        id="image"
-        aria-label="image_post"
-      />
-    </div>
-    <div
-      class="dialogue_btn"
-      v-if="this.post.image !== null || this.image !== null"
-      @click="deleteImage"
-    >
-      SUPPRIMER L'IMAGE
-    </div>
-    <div v-if="this.image == 'delete'">Image supprimée !</div>
-    <div class="dialogue_btn" @click="noEtat()">
-      <span>ANNULER</span>
-    </div>
-    <button class="btn-grad" @click="modifyPost()">
-      <span>Publier la modification</span>
-    </button>
+    <p>Nouveau post</p>
+    <form @submit.prevent="updateOne" method="post">
+      <div class="form-group">
+        <textarea
+          v-model="post.message"
+          name="post"
+          class="post"
+          cols="120"
+          placeholder="Quoi de neuf?"
+        ></textarea>
+        <div class="post_info">
+          <div class="file_item">
+            <label for="file" class="label_file">
+              <p>Ajouter une image?</p>
+              <input type="file" @change="uploadImg" accept="image/*" />
+              <img :src="post.imageUrl" />
+            </label>
+          </div>
+          <div class="btn">
+            <button @click="updateOne">MODIFIER LE POST</button>
+            <router-link to="/forum">ANNULER</router-link>
+          </div>
+        </div>
+      </div>
+    </form>
   </div>
 </template>
 
 <script>
 export default {
   name: "edit",
-  props: ["id"],
-
   data: () => {
     return {
       post: {
-        id: "",
         message: "",
         imageUrl: null,
       },
     };
   },
   mounted() {
-    console.log(this.$route.params);
-    this.post.id = this.$route.params.id;
+    // pour afficher le poste a supprimer;
+    let postId = this.$route.params.id;
+    let token = sessionStorage.getItem("token");
+    console.log(postId);
+
+    fetch(`http://localhost:3000/api/posts/${postId}`, {
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        this.post = data;
+      })
+      .catch((err) => console.log("err"));
   },
 
   methods: {
-    onFileChange(e) {
+    uploadImg(e) {
       this.post.imageUrl = e.target.files[0];
     },
 
-    // modifyPost() {
-    //   let postUpdate = new FormData();
-    //   postUpdate.append("message", this.post.message);
-    //   postUpdate.append("UserId", this.post.id);
-    //   postUpdate.append("image", this.post.imageUrl);
-
-    //   let token = sessionStorage.getItem("token");
-    //   fetch("http://localhost:3000/api/posts/:id", postUpdate, {
-    //     headers: {
-    //       Authorization: "Bearer " + token,
-    //       "Content-Type": "multipart/form-data",
-    //     },
-    //     method: "PUT",
-    //   })
-    //     .then((res) => res.json())
-    //     .then((data) => {
-    //       console.log(data);
-    //     })
-    //     .catch((err) => console.log("err"));
-    // },
+    updateOne() {
+      let postUpdate = new FormData();
+      postUpdate.append("message", this.post.message);
+      postUpdate.append("image", this.post.imageUrl);
+      let postId = this.$route.params.id;
+      
+      let token = sessionStorage.getItem("token");
+      fetch(`http://localhost:3000/api/posts/${postId}`, postUpdate, {
+        headers: {
+          Authorization: "Bearer " + token,
+          "Content-Type": "multipart/form-data",
+        },
+        method: "PUT",
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          console.log(data);
+        })
+        .catch((err) => console.log("err"));
+    },
   },
 };
 </script>
 
-<style></style>
+<style scoped>
+.edit_card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.title {
+  margin-bottom: 15px;
+}
+
+.btn {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  height: 100%;
+}
+.post {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f4f4f9;
+  margin: 15px 10px;
+  border-style: inset;
+  border-radius: 11px;
+  height: 100px;
+  width: 450px;
+}
+.post_info {
+  display: flex;
+  flex-direction: column;
+}
+</style>
