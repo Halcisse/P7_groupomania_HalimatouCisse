@@ -14,7 +14,7 @@ const router = createRouter({
     },
     // Routage Admin
     {
-      path: "/",
+      path: "/admin",
       name: "admin",
       beforeEnter: authGuard,
       component: () => import("../views/admin/AdminLayout.vue"),
@@ -41,10 +41,7 @@ const router = createRouter({
         //   path: "posts/index",
         //   component: () => import("../views/admin/posts/PostsIndex.vue"),
         // },
-        // {
-        //   path: "posts/edit/",
-        //   component: () => import("../views/admin/posts/PostsEdit.vue"),
-        // },
+
         // redirection vers admin_dash en cas de mauvais routage
         {
           path: "/:PathMatch(.*)*",
@@ -60,20 +57,15 @@ const router = createRouter({
       component: () => import("../views/auth/ForumLayout.vue"),
       children: [
         // {
-        //   path: "/",
+        //   path: "/forum/newposts",
         //   name: "createPost",
         //   component: () => import("../components/forum/CreatePost.vue"),
         // },
-        {
-          path: "/",
-          name: "displayPost",
-          component: () => import("../components/forum/CreatePost.vue"),
-        },
-        {
-          path: "posts/edit",
-          name: "EditPost",
-          component: () => import("../components/forum/EditPost.vue"),
-        },
+        // {
+        //   path: "/forum/display",
+        //   name: "displayPost",
+        //   component: () => import("../components/forum/DisplayPost.vue"),
+        // },
 
         // redirection vers forum en cas de mauvais routage
         {
@@ -93,6 +85,18 @@ const router = createRouter({
       name: "signup",
       component: () => import("../views/auth/SignUpView.vue"),
     },
+    {
+      path: "/edit/:id",
+      name: "edit",
+      component: () => import("../components/forum/EditPost.vue"),
+      props: true,
+    },
+    {
+      path: "/delete/:id",
+      name: "delete",
+      component: () => import("../components/forum/DeletePost.vue"),
+      props: true,
+    },
 
     // redirection vers 404 en cas de mauvais routage
     {
@@ -105,7 +109,7 @@ const router = createRouter({
 
 //pour que l'admin n'est plus accès a ses fct lorsqu'il n'y a plus de token (expiration)
 router.beforeEach((to, from, next) => {
-  if (to.matched[0].name == "admin" && to.matched[0].name == "forum") {
+  if (to.matched[0].name == "admin" || to.matched[0].name == "forum") {
     authGuard();
   }
   next();

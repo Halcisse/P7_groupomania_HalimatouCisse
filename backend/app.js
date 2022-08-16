@@ -3,14 +3,15 @@ const app = express();
 const mongoose = require("mongoose");
 const path = require("path");
 require("dotenv").config();
-const helmet = require("helmet");
-const rateLimit = require("express-rate-limit");
+// const helmet = require("helmet");
+// const rateLimit = require("express-rate-limit");
+const cors = require("cors");
 
-const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000,
-  max: 100,
-  message: "Il y a eu trop de requêtes depuis cette adresse IP!",
-});
+// const limiter = rateLimit({
+//   windowMs: 15 * 60 * 1000,
+//   max: 100,
+//   message: "Il y a eu trop de requêtes depuis cette adresse IP!",
+// });
 // parse requests of content-type - application/json
 app.use(express.json());
 
@@ -28,27 +29,33 @@ mongoose
   .catch(() => console.log("Connexion à MongoDB échouée !"));
 
 //permet de gérer les erreurs de connexion sur plusieurs serveurs (CORS)
-app.use((req, res, next) => {
-  res.setHeader("Access-Control-Allow-Origin", "*");
-  res.setHeader(
-    "Access-Control-Allow-Headers",
-    "Origin, X-Requested-With, Content, Accept, Content-Type, Authorization"
-  );
-  res.setHeader(
-    "Access-Control-Allow-Credentials",
-    "Access-Control-Allow-Methods",
-    "GET, POST, PUT, DELETE, PATCH, OPTIONS"
-  );
-  next();
-});
+// app.use((req, res, next) => {
+//   res.setHeader("Access-Control-Allow-Origin", "*");
+//   res.setHeader(
+//     "Access-Control-Allow-Headers",
+//     "Origin, X-Requested-With, Content, Accept, Content-Type, Authorization"
+//   );
+//   res.setHeader(
+//     "Access-Control-Allow-Credentials",
+//     "Access-Control-Allow-Methods",
+//     "GET, POST, PUT, DELETE, PATCH, OPTIONS"
+//   );
+//   next();
+// });
+
+app.use(
+  cors({
+    origin: "http://localhost:8080",
+  })
+);
 
 app.use(express.json()); // les requetes entrantes sont parsés en json
-app.use(limiter); // Sécurise l'authentification
-app.use(
-  helmet({
-    crossOriginResourcePolicy: false,
-  })
-); // Sécurise le serveur Express
+// app.use(limiter); // Sécurise l'authentification
+// app.use(
+//   helmet({
+//     crossOriginResourcePolicy: false,
+//   })
+// ); // Sécurise le serveur Express
 
 app.use("/api/auth", userRoute);
 app.use("/api/posts", PostRoute);

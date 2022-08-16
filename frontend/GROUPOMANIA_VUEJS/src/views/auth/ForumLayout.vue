@@ -32,6 +32,7 @@ import ForumHeader from "../../components/forum/ForumHeader.vue";
 import ForumNav from "../../components/forum/ForumNav.vue";
 import DisplayPost from "../../components/forum/DisplayPost.vue";
 import CreatePost from "../../components/forum/CreatePost.vue";
+import EditPost from "../../components/forum/EditPost.vue";
 import { Suspense, ref, onErrorCaptured } from "vue";
 
 export default {
@@ -45,7 +46,14 @@ export default {
 
     return { error };
   },
-  components: { ForumHeader, ForumNav, DisplayPost, Suspense, CreatePost },
+  components: {
+    ForumHeader,
+    ForumNav,
+    DisplayPost,
+    Suspense,
+    CreatePost,
+    EditPost,
+  },
 };
 </script>
 

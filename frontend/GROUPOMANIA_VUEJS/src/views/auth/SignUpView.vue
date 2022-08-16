@@ -70,8 +70,6 @@
 <!-- cisse hal test3@groupomania.com Groupomani@123 -->
 
 <script>
-import { accountServices } from "../../_services";
-
 export default {
   name: "signup",
   data() {

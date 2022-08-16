@@ -1,5 +1,4 @@
 <template>
-
   <div class="creation_post">
     <form @submit.prevent="createPost" method="post">
       <div class="form-group">
@@ -38,8 +37,9 @@ export default {
       post: {
         message: "",
         imageUrl: null,
-
-        // userId: sessionStorage.getItem("id"),
+        userId: sessionStorage.getItem("id"),
+        postId: "",
+        file: "",
       },
 
       posts: [],
@@ -47,10 +47,24 @@ export default {
   },
 
   methods: {
+    // let formData = new FormData();
+    // formData.append("file", file);
+    // return http.post("/upload", formData, {
+    //   headers: {
+    //     "Content-Type": "multipart/form-data"
+    //   },
+
     uploadImg(event) {
       this.post.imageUrl = event.target.files[0];
-      // let filename = event.target.files[0].name;
+
+      // let reader = new FileReader();
+      // reader.onload = (event) => {
+      //   this.post.imageUrl = event.target.files[0];
+      // };
+      //reader.readAsDataURL(this.post.imageUrl);
+
       let fileSelected = this.post.imageUrl;
+
       let token = sessionStorage.getItem("token");
       fetch("http://localhost:3000/api/posts", {
         headers: {
@@ -65,8 +79,12 @@ export default {
         .then((data) => {
           alert("upload ok");
           console.log(data);
-          fileSelected = data.imageUrl;
-          // filename = this.post.imageUrl.name;
+          if (fileSelected) {
+            fileSelected = data.imageUrl;
+
+            reader.readAsDataURL(fileSelected);
+          }
+
           console.log(fileSelected);
         })
         .catch((err) => console.log("err"));
@@ -87,7 +105,8 @@ export default {
         let post = {
           message: this.post.message,
           imageUrl: this.post.imageUrl,
-          // userId: this.post.userId,
+          userId: this.post.userId,
+          postId: this.post.postId,
         };
         console.log(post);
         let token = sessionStorage.getItem("token");
@@ -102,9 +121,11 @@ export default {
         })
           .then((res) => res.json())
           .then((data) => {
-            alert("its ok");
+            console.log("data", data);
+            this.post.postId = data.postId;
             this.posts.push(this.post);
-            window.location.reload();
+            console.log(this.post);
+            // window.location.reload();
           })
           .catch((err) => console.log("err"));
         // axios.post("http://localhost:3000/api/posts", formData, {

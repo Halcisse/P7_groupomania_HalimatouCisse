@@ -3,6 +3,7 @@
   <SinglePost
     v-else
     v-for="post in posts.slice().reverse()"
+    :key="post.id"
     :post="post"
     class="post_card"
   />
