@@ -4,7 +4,7 @@
       <h1>Modifier la publication</h1>
     </div>
     <p>Ancien post</p>
-    <div class="post">{{ post.message }} {{ post.imageUrl }}</div>
+    <div class="post">{{ post.message }} <img :src="post.imageUrl" /></div>
 
     <p>Nouveau post</p>
     <form @submit.prevent="updateOne" method="post">
@@ -71,15 +71,16 @@ export default {
 
   methods: {
     uploadImg(event) {
-      this.post.imageUrl = event.target.files[0];
+      let file = event.target.files[0];
+      this.file = file;
     },
 
     //pour mettre à jour le post
     updateOne() {
-      // let post = {
-      //   message: this.post.message,
-      //   imageUrl: this.post.imageUrl,
-      // };
+      let newPost = new FormData();
+      newPost.append("file", this.file);
+      newPost.append("message", this.post.message);
+      newPost.append("postId", this.post.postId);
 
       let postId = this.$route.params.id;
 
@@ -87,20 +88,13 @@ export default {
       fetch(`http://localhost:3000/api/posts/${postId}`, {
         headers: {
           Authorization: "Bearer " + token,
-          "Content-Type": "text/html/ charset=utf-8",
+          // "Content-Type": "text/html/ charset=utf-8",
         },
         method: "PUT",
-        // body: JSON.stringify(post),
+        body: newPost,
       })
         .then((res) => res.json())
         .then((data) => {
-          data.post = this.post;
-          console.log(this.posts);
-          this.posts.push(this.post);
-          console.log(this.posts);
-
-          // console.log("datapost", data.post);
-          // console.log("thispost", this.post);
           this.$router.push("/forum");
         })
         .catch((err) => console.log("err"));

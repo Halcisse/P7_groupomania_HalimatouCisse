@@ -84,10 +84,10 @@ export default {
               this.post.imageUrl = data.imageUrl;
               this.post.postId = data.postId;
               this.posts.push(this.post);
-              this.$router.push("/forum");
+            // this.$router.push("/forum");
             } else {
               this.file = null;
-              this.$router.push("/forum");
+              // this.$router.push("/forum");
             }
           })
           .catch((err) => console.log("err"));

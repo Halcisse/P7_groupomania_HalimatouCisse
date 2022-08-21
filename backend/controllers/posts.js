@@ -104,7 +104,7 @@ exports.modifyPost = (req, res, next) => {
         fs.unlink(`images/${filename}`, () => {
           //... on le supprime et on met à jour le post
           const postObject = {
-            ...JSON.parse(req.body.post),
+            ...req.body.post,
             imageUrl: `${req.protocol}://${req.get("host")}/images/${
               req.file.filename
             }`,
