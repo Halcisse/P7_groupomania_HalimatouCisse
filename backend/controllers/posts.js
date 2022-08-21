@@ -33,29 +33,60 @@ exports.getOnePost = (req, res, next) => {
 
 //Pour créer un post = POST
 exports.createPost = (req, res, next) => {
-  console.log(req.body);
-  const post = new Post({
-    ...req.body,
-    imageUrl: `${req.protocol}://${req.get("host")}/images/${req.file}`,
-    usersLiked: [],
-    usersDisliked: [],
-    likes: 0,
-    dislikes: 0,
-  });
-  post
-    .save()
-    .then(() => {
-      res.status(201).json({
-        imageUrl: `${req.protocol}://${req.get("host")}/images/${req.file}`,
-        postId: post._id,
-        message: "Post publié avec succès!",
-      });
-    })
-    .catch((error) => {
-      res.status(400).json({
-        error: error,
-      });
+  console.log(req.file);
+  if (req.file) {
+    const post = new Post({
+      ...req.body,
+      imageUrl: `${req.protocol}://${req.get("host")}/images/${
+        req.file.filename
+      }`,
+      usersLiked: [],
+      usersDisliked: [],
+      likes: 0,
+      dislikes: 0,
     });
+    post
+      .save()
+      .then(() => {
+        res.status(201).json({
+          imageUrl: `${req.protocol}://${req.get("host")}/images/${
+            req.file.filename
+          }`,
+          postId: post._id,
+          message: "Post publié avec succès!",
+        });
+      })
+      .catch((error) => {
+        res.status(400).json({
+          error: error,
+        });
+      });
+  } else {
+    const post = new Post({
+      ...req.body,
+      imageUrl: null,
+      usersLiked: [],
+      usersDisliked: [],
+      likes: 0,
+      dislikes: 0,
+    });
+    post
+      .save()
+      .then(() => {
+        res.status(201).json({
+          imageUrl: `${req.protocol}://${req.get("host")}/images/${
+            req.file.filename
+          }`,
+          postId: post._id,
+          message: "Post publié avec succès!",
+        });
+      })
+      .catch((error) => {
+        res.status(400).json({
+          error: error,
+        });
+      });
+  }
 };
 
 //Pour modifier un post = PUT
@@ -85,7 +116,7 @@ exports.modifyPost = (req, res, next) => {
             .then(() =>
               res
                 .status(200)
-                .json({ message: "Le post a été modifié avec succès!!" })
+                .json({ message: "Le post a été modifié avec succès!!", post })
             )
             .catch((error) => res.status(400).json({ error }));
         });
@@ -99,7 +130,7 @@ exports.modifyPost = (req, res, next) => {
           .then(() =>
             res
               .status(200)
-              .json({ message: "Le post a été modifié avec succès!!" })
+              .json({ message: "Le post a été modifié avec succès!!", post })
           )
           .catch((error) => res.status(400).json({ error }));
       }

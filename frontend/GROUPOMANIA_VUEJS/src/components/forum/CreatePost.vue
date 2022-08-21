@@ -9,7 +9,6 @@
           cols="120"
           placeholder="Quoi de neuf?"
         ></textarea>
-
         <div class="post_info">
           <div class="file_item">
             <label for="file" class="label_file">
@@ -39,100 +38,59 @@ export default {
         imageUrl: null,
         userId: sessionStorage.getItem("id"),
         postId: "",
-        file: "",
       },
-
+      file: null,
       posts: [],
     };
   },
 
   methods: {
-    // let formData = new FormData();
-    // formData.append("file", file);
-    // return http.post("/upload", formData, {
-    //   headers: {
-    //     "Content-Type": "multipart/form-data"
-    //   },
-
     uploadImg(event) {
-      this.post.imageUrl = event.target.files[0];
-
-      // let reader = new FileReader();
-      // reader.onload = (event) => {
-      //   this.post.imageUrl = event.target.files[0];
-      // };
-      //reader.readAsDataURL(this.post.imageUrl);
-
-      let fileSelected = this.post.imageUrl;
-
-      let token = sessionStorage.getItem("token");
-      fetch("http://localhost:3000/api/posts", {
-        headers: {
-          Authorization: "Bearer " + token,
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
-        method: "POST",
-        body: JSON.stringify(fileSelected),
-      })
-        .then((res) => res.json())
-        .then((data) => {
-          alert("upload ok");
-          console.log(data);
-          if (fileSelected) {
-            fileSelected = data.imageUrl;
-
-            reader.readAsDataURL(fileSelected);
-          }
-
-          console.log(fileSelected);
-        })
-        .catch((err) => console.log("err"));
+      let file = event.target.files[0];
+      this.file = file;
     },
 
     createPost() {
       //s'il n'y a pas de message et pas de fichiers
-      if (this.post.message == "" && this.post.imageUrl == null) {
+      if (this.post.message == "" && this.file == null) {
         alert("La publication est vide!");
       }
       //s'il y a des fichiers et/ou message
       if (
-        (this.post.message != "" && this.post.imageUrl == null) ||
-        (this.post.imageUrl != null && this.post.message == "") ||
-        (this.post.imageUrl != null && this.post.message != "")
+        (this.post.message != "" && this.file == null) ||
+        (this.file != null && this.post.message == "") ||
+        (this.file != null && this.post.message != "")
       ) {
-        //le post
-        let post = {
-          message: this.post.message,
-          imageUrl: this.post.imageUrl,
-          userId: this.post.userId,
-          postId: this.post.postId,
-        };
-        console.log(post);
+        let fd = new FormData();
+        fd.append("file", this.file);
+        fd.append("message", this.post.message);
+        fd.append("postId", this.post.postId);
+
         let token = sessionStorage.getItem("token");
         fetch("http://localhost:3000/api/posts", {
           headers: {
             Authorization: "Bearer " + token,
-            "Content-Type": "application/json",
-            Accept: "application/json",
+            // "Content-Type": "multipart/form-data",
+            // Accept: "application/json",
           },
           method: "POST",
-          body: JSON.stringify(post),
+
+          body: fd,
         })
           .then((res) => res.json())
           .then((data) => {
-            console.log("data", data);
-            this.post.postId = data.postId;
-            this.posts.push(this.post);
-            console.log(this.post);
-            // window.location.reload();
+            if (file) {
+              console.log("data", data);
+              this.post.imageUrl = data.imageUrl;
+              this.post.postId = data.postId;
+              this.posts.push(this.post);
+              this.$router.push("/forum");
+            } else {
+              this.file = null;
+              this.$router.push("/forum");
+            }
           })
           .catch((err) => console.log("err"));
-        // axios.post("http://localhost:3000/api/posts", formData, {
-        //   headers: {
-        //     "Content-Type": "multipart/form-data",
-        //   },
-        // });
       }
     },
   },

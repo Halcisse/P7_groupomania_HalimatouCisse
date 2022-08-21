@@ -37,12 +37,17 @@
 <script>
 export default {
   name: "edit",
-  data: () => {
+  data() {
     return {
       post: {
         message: "",
         imageUrl: null,
+        userId: sessionStorage.getItem("id"),
+        postId: "",
+        file: "",
       },
+
+      posts: [],
     };
   },
   mounted() {
@@ -65,27 +70,38 @@ export default {
   },
 
   methods: {
-    uploadImg(e) {
-      this.post.imageUrl = e.target.files[0];
+    uploadImg(event) {
+      this.post.imageUrl = event.target.files[0];
     },
 
+    //pour mettre à jour le post
     updateOne() {
-      let postUpdate = new FormData();
-      postUpdate.append("message", this.post.message);
-      postUpdate.append("image", this.post.imageUrl);
+      // let post = {
+      //   message: this.post.message,
+      //   imageUrl: this.post.imageUrl,
+      // };
+
       let postId = this.$route.params.id;
-      
+
       let token = sessionStorage.getItem("token");
-      fetch(`http://localhost:3000/api/posts/${postId}`, postUpdate, {
+      fetch(`http://localhost:3000/api/posts/${postId}`, {
         headers: {
           Authorization: "Bearer " + token,
-          "Content-Type": "multipart/form-data",
+          "Content-Type": "text/html/ charset=utf-8",
         },
         method: "PUT",
+        // body: JSON.stringify(post),
       })
         .then((res) => res.json())
         .then((data) => {
-          console.log(data);
+          data.post = this.post;
+          console.log(this.posts);
+          this.posts.push(this.post);
+          console.log(this.posts);
+
+          // console.log("datapost", data.post);
+          // console.log("thispost", this.post);
+          this.$router.push("/forum");
         })
         .catch((err) => console.log("err"));
     },

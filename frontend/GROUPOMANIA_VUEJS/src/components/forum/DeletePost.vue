@@ -4,7 +4,7 @@
       <h1>Êtes-vous sûr?</h1>
       <p>Toute suppression est définitive!</p>
     </div>
-    <div class="post">{{ post.message }} {{ post.imageUrl }}</div>
+    <div class="post">{{ post }}</div>
     <div class="btn">
       <button @click="deleteOne">SUPPRIMER LE POST</button>
       <router-link to="/forum">ANNULER</router-link>
@@ -46,7 +46,6 @@ export default {
       let postId = this.$route.params.id;
       let token = sessionStorage.getItem("token");
       console.log(postId);
-
       fetch(`http://localhost:3000/api/posts/${postId}`, {
         method: "DELETE",
         headers: {
@@ -56,9 +55,8 @@ export default {
       })
         .then((res) => res.json())
         .then((data) => {
-          console.log(data.post);
-          this.post = data.post;
-
+          console.log(data);
+          // this.post = data.post;
           alert("publication supprimée!");
           this.$router.push("/forum");
         })
