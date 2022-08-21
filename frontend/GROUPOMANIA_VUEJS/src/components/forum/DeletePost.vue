@@ -4,7 +4,7 @@
       <h1>Êtes-vous sûr?</h1>
       <p>Toute suppression est définitive!</p>
     </div>
-    <div class="post">{{ post }}</div>
+    <div class="post">{{ post.message }} <img :src="post.imageUrl" /></div>
     <div class="btn">
       <button @click="deleteOne">SUPPRIMER LE POST</button>
       <router-link to="/forum">ANNULER</router-link>

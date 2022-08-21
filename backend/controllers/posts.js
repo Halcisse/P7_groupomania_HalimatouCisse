@@ -147,8 +147,18 @@ exports.deletePost = (req, res, next) => {
           error: new Error("Ce post n'existe pas!"),
         });
       }
-      const filename = post.imageUrl.split("/images/")[1]; // on recherche le nom du fichier image et on supprime le fichier
-      fs.unlink(`images/${filename}`, () => {
+      if (req.file) {
+        const filename = post.imageUrl.split("/images/")[1]; // on recherche le nom du fichier image et on supprime le fichier
+        fs.unlink(`images/${filename}`, () => {
+          Post.deleteOne({ _id: req.params.id })
+            .then(() =>
+              res
+                .status(200)
+                .json({ message: "Le post a été supprimé avec succès!!", post })
+            )
+            .catch((error) => res.status(400).json({ error }));
+        });
+      } else {
         Post.deleteOne({ _id: req.params.id })
           .then(() =>
             res
@@ -156,7 +166,7 @@ exports.deletePost = (req, res, next) => {
               .json({ message: "Le post a été supprimé avec succès!!", post })
           )
           .catch((error) => res.status(400).json({ error }));
-      });
+      }
     })
     .catch((error) => res.status(500).json({ error }));
 };

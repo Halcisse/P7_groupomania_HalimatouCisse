@@ -2,7 +2,7 @@
   <div class="post">
     <div class="postMessage">{{ post.message }}</div>
     <img :src="post.imageUrl" />
-    <!-- <div class="postImage">{{ post }}</div> -->
+    
 
     <div class="postItem">
       <div class="iconLikes">
